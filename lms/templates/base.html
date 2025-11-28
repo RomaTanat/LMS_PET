@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LMS - Learning Platform{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-mesh">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">LMS Platform</a>
+            <ul class="nav-links">
+                <li><a href="/courses" class="nav-link">📚 Курсы</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'room' room_name='ai_session' %}" class="nav-link">🤖 AI Чат</a></li>
+                {% endif %}
+                {# Конец исправленного блока #}
+                <li><a href="{% url 'about' %}" class="nav-link">ℹ️ О нас</a></li>
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}" class="nav-link active">👤 {{ user.username }}</a></li>
+                <li>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link"
+                            style="background: none; border: none; cursor: pointer;">🚪 Выход</button>
+                    </form>
+                </li>
+                {% else %}
+                <li><a href="{% url 'login' %}" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Вход</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="nav-container" style="justify-content: center;">
+            <p>&copy; 2025 LMS Platform. Enterprise Learning Solution.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Page-specific overrides */
+    .profile-layout {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 2rem;
+    }
+
+    .user-sidebar {
+        position: sticky;
+        top: calc(var(--header-height) + 2rem);
+        height: fit-content;
+    }
+
+    .avatar-wrapper {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 1.5rem;
+    }
+
+    .avatar-ring {
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+        animation: spin 4s linear infinite;
+        filter: blur(8px);
+        opacity: 0.7;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .avatar-img {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--dark-bg);
+        z-index: 2;
+    }
+
+    .user-name {
+        font-size: 2rem;
+        font-weight: 700;
+        text-align: center;
+        background: linear-gradient(to right, #fff, #cbd5e1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .mini-stat {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 1rem;
+        border-radius: 16px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .mini-stat-val {
+        font-size: 1.5rem;
+        font-weight: 700;
+        display: block;
+    }
+
+    .mini-stat-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* Achievements Grid */
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .achievement-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 1.25rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .achievement-item.unlocked {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+        border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .ach-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .progress-track {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: var(--success);
+        border-radius: 3px;
+    }
+
+    /* Course Cards */
+    .course-card {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .course-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .course-thumb {
+        height: 160px;
+        background: linear-gradient(45deg, #4f46e5, #8b5cf6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .course-thumb::after {
+        content: '📚';
+        font-size: 4rem;
+        opacity: 0.5;
+    }
+
+    .course-body {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media (max-width: 900px) {
+        .profile-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .user-sidebar {
+            position: relative;
+            top: 0;
+        }
+    }
+</style>
+
+<div class="profile-layout">
+    <!-- Left Sidebar -->
+    <aside class="user-sidebar">
+        <div class="glass-panel">
+            <div class="avatar-wrapper">
+                <div class="avatar-ring"></div>
+                <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="avatar-img"
+                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ user.username }}&background=random&color=fff&size=256';">
+            </div>
+
+            <h1 class="user-name">{{ user.username }}</h1>
+            <div class="text-center text-muted mb-4">
+                <span>📧</span> {{ user.email }}
+            </div>
+
+            <div class="stats-row">
+                <div class="mini-stat">
+                    <span class="mini-stat-val">{{ user.enrolled_courses.count }}</span>
+                    <span class="mini-stat-label">Курсов</span>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-stat-val">
+                        {% if user.achievements.exists %}
+                        {{ user.achievements.count }}
+                        {% else %}
+                        0
+                        {% endif %}
+                    </span>
+                    <span class="mini-stat-label">Наград</span>
+                </div>
+            </div>
+
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary w-full mb-4">
+                <span>✏️</span> Редактировать профиль
+            </a>
+            <a href="{% url 'logout' %}" class="btn btn-outline w-full">
+                <span>🚪</span> Выйти из аккаунта
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" style="display: flex; flex-direction: column; gap: 2rem;">
+
+        <!-- Priorities Section -->
+        {% if user.profile.priorities %}
+        <div class="glass-panel">
+            <h2 class="section-title"><span>🎯</span> Мои приоритеты</h2>
+            <div style="font-size: 1.1rem; line-height: 1.7; white-space: pre-wrap;">{{ user.profile.priorities }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Achievements Section -->
+        <div class="glass-panel">
+            <h2 class="section-title"><span>🏆</span> Достижения</h2>
+
+            {% if user.achievements.exists %}
+            <div class="achievements-grid">
+            </div>
+            {% else %}
+            <div class="text-center text-muted" style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;">🏅</div>
+                <p>У вас пока нет достижений. Начните учиться, чтобы открыть их!</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Courses Section -->
+        <div class="glass-panel">
+            <h2 class="section-title"><span>📚</span> Мои курсы</h2>
+
+            {% if user.enrolled_courses.all %}
+            <div class="achievements-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                {% for course in user.enrolled_courses.all %}
+                <div class="course-card">
+                    <div class="course-thumb">
+                        {% if course.image %}
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                        {% endif %}
+                    </div>
+                    <div class="course-body">
+                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">{{ course.title }}
+                        </h3>
+                        <p class="text-muted" style="margin-bottom: 1.5rem; flex: 1;">{{
+                            course.description|truncatechars:100 }}</p>
+                        <a href="{% url 'course_detail' course.pk %}" class="btn btn-outline w-full"
+                            style="text-align: center;">
+                            Продолжить обучение
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center text-muted" style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;">📝</div>
+                <p>Вы еще не записались ни на один курс.</p>
+                <a href="/" class="btn btn-primary mt-4">Каталог курсов →</a>
+            </div>
+            {% endif %}
+        </div>
+
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto text-center py-16">
+    <h1 class="text-4xl font-bold text-gray-800">О нас</h1>
+    <p class="mt-4 text-gray-600 text-lg max-w-3xl mx-auto">
+        Добро пожаловать в LMS — вашу платформу для онлайн-обучения.
+        Мы предоставляем качественные курсы, которые помогут вам развиваться и осваивать новые навыки.
+        Наша цель — сделать обучение доступным, удобным и эффективным.
+    </p>
+
+    <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h3 class="text-2xl font-semibold text-gray-800">Качественные курсы</h3>
+            <p class="text-gray-600 mt-2">Наши курсы разработаны экспертами в своих областях.</p>
+        </div>
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h3 class="text-2xl font-semibold text-gray-800">Гибкое обучение</h3>
+            <p class="text-gray-600 mt-2">Учитесь в удобное для вас время и в удобном формате.</p>
+        </div>
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h3 class="text-2xl font-semibold text-gray-800">Сообщество</h3>
+            <p class="text-gray-600 mt-2">Общайтесь с другими студентами и развивайтесь вместе.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

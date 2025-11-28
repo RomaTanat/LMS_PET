@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="glass-panel" style="width: 100%; max-width: 400px; padding: 2.5rem;">
+        <h2 class="section-title text-center" style="margin-bottom: 2rem;">Регистрация</h2>
+        <form method="post" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            {% csrf_token %}
+            {% for field in form %}
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="color: var(--text-muted); font-size: 0.9rem;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="text-muted" style="font-size: 0.75rem;">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary w-full" style="margin-top: 1rem;">Зарегистрироваться</button>
+        </form>
+        <p class="text-center text-muted" style="margin-top: 1.5rem;">
+            Уже есть аккаунт? <a href="{% url 'login' %}"
+                style="color: var(--primary); text-decoration: none; font-weight: 600;">Войти</a>
+        </p>
+    </div>
+</div>
+
+<style>
+    /* Custom styles for form inputs to match theme */
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: white;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus {
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    ul.errorlist {
+        color: #ef4444;
+        list-style: none;
+        padding: 0;
+        font-size: 0.85rem;
+    }
+</style>
+{% endblock %}

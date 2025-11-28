@@ -1,0 +1,32 @@
+[
+    {
+        "model": "lms.course",
+        "pk": 1,
+        "fields": {
+            "title": "Python для начинающих",
+            "description": "Курс для тех, кто хочет изучить основы программирования на Python.",
+            "created_at": "2025-02-08T12:00:00Z",
+            "author": 1
+        }
+    },
+    {
+        "model": "lms.course",
+        "pk": 2,
+        "fields": {
+            "title": "Web-разработка с Django",
+            "description": "Освой Django и создавай мощные веб-приложения.",
+            "created_at": "2025-02-08T12:00:00Z",
+            "author": 1
+        }
+    },
+    {
+        "model": "lms.course",
+        "pk": 3,
+        "fields": {
+            "title": "Алгоритмы и структуры данных",
+            "description": "Изучи ключевые алгоритмы и структуры данных для эффективного программирования.",
+            "created_at": "2025-02-08T12:00:00Z",
+            "author": 1
+        }
+    }
+]

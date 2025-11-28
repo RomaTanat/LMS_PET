@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="padding: 4rem 2rem; text-align: center;">
+    <div style="margin-bottom: 4rem;">
+        <h1
+            style="font-size: 4rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(to right, #fff, #a5b4fc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+            Добро пожаловать в LMS!
+        </h1>
+        <p class="text-muted" style="font-size: 1.5rem; max-width: 600px; margin: 0 auto 2rem;">
+            Учитесь и развивайтесь вместе с нами. Откройте для себя новые горизонты знаний.
+        </p>
+
+        <a href="{% url 'course_list' %}" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 2.5rem;">
+            Начать обучение →
+        </a>
+    </div>
+
+    <!-- Блок популярных курсов -->
+    <div style="margin-top: 4rem;">
+        <h2 class="section-title text-center" style="margin-bottom: 2rem;">Популярные курсы</h2>
+        <div class="achievements-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+            {% for course in courses|slice:":3" %}
+            <div class="glass-panel"
+                style="padding: 0; overflow: hidden; display: flex; flex-direction: column; height: 100%; text-align: left;">
+                <div style="height: 180px; overflow: hidden; position: relative;">
+                    <img src="{{ course.image.url }}" alt="Курс" style="width: 100%; height: 100%; object-fit: cover;"
+                        onerror="this.onerror=null; this.src='https://source.unsplash.com/400x250/?education,learning';">
+                    <div
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));">
+                    </div>
+                </div>
+                <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
+                    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">{{
+                        course.title }}</h2>
+                    <p class="text-muted" style="margin-bottom: 1.5rem; flex: 1; line-height: 1.6;">{{
+                        course.description|truncatechars:100 }}</p>
+                    <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary w-full"
+                        style="text-align: center;">
+                        Подробнее →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

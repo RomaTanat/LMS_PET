@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding: 2rem; max-width: 1000px;">
+    <div class="glass-panel mb-8">
+        <h1 class="section-title text-center" style="margin-bottom: 1rem;">{{ course.title }}</h1>
+        <p class="text-muted text-center" style="font-size: 1.1rem; line-height: 1.6;">{{ course.description }}</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+        {% for section in sections %}
+        <div class="glass-panel">
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--primary);">{{
+                section.title }}</h3>
+            <p class="text-muted" style="margin-bottom: 1.5rem;">{{ section.description }}</p>
+
+            <!-- Материалы -->
+            <h4
+                style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span>📚</span> Материалы
+            </h4>
+            {% for material in section.materials.all %}
+            <div
+                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                <h5 style="font-weight: 600; margin-bottom: 0.5rem;">{{ material.title }}</h5>
+                <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">{{ material.content }}</p>
+
+                <div style="display: flex; gap: 1rem;">
+                    {% if material.file %}
+                    <a href="{{ material.file.url }}" download class="btn btn-outline"
+                        style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        📥 Скачать
+                    </a>
+                    {% endif %}
+                    {% if material.link %}
+                    <a href="{{ material.link }}" target="_blank" class="btn btn-primary"
+                        style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        🔗 Перейти
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted" style="font-style: italic; opacity: 0.7;">Нет материалов.</p>
+            {% endfor %}
+
+            <!-- Тесты -->
+            <h4
+                style="font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span>📝</span> Тесты
+            </h4>
+            {% for test in section.tests.all %}
+            <div
+                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                <p style="font-weight: 600; margin-bottom: 0.5rem;">{{ test.question }}</p>
+                <ul style="list-style: none; padding: 0;">
+                    {% for choice in test.answer_choices %}
+                    <li
+                        style="padding: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted);">
+                        • {{ choice }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% empty %}
+            <p class="text-muted" style="font-style: italic; opacity: 0.7;">Нет тестов.</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

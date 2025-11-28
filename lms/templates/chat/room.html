@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="padding: 2rem; max-width: 900px;">
+    <div class="glass-panel" style="height: 80vh; display: flex; flex-direction: column; padding: 0;">
+        <div
+            style="padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="margin: 0; font-size: 1.5rem; font-weight: 700;">💬 Чат: {{ room_name }}</h2>
+            <span class="text-muted" style="font-size: 0.9rem;">{{ user.username }}</span>
+        </div>
+
+        <div id="chat-log"
+            style="flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+           {% for message in messages %}
+
+            <div class="message
+                {% if message.user and message.user == user and not message.is_ai_response %}
+                    own
+                {% elif message.is_ai_response %}
+                    ai-bot
+                {% endif %}">
+
+                <div class="message-content">
+                    <small style="display: block; font-size: 0.75rem; opacity: 0.7; margin-bottom: 0.25rem;">
+                        {% if message.is_ai_response %}
+                            🤖 DeepSeek AI
+                        {% elif message.user %}
+                            {{ message.user.username }}
+                        {% else %}
+                            System
+                        {% endif %}
+                    </small>
+                    {{ message.content }}
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+
+        <div style="padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2);">
+            <div style="display: flex; gap: 1rem;">
+                <input id="chat-message-input" type="text" placeholder="Введите сообщение..."
+                    style="flex: 1; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none;">
+                <button id="chat-message-submit" class="btn btn-primary" style="padding: 0 1.5rem;">
+                    ➤
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Базовые стили сообщений */
+    .message {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* По умолчанию слева */
+    }
+
+    .message-content {
+        max-width: 70%;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .message:not(.own):not(.ai-bot) .message-content {
+        border-bottom-left-radius: 4px;
+    }
+
+    /* Стили для собственных сообщений */
+    .message.own {
+        align-items: flex-end; /* Справа */
+    }
+
+    .message.own .message-content {
+        background: var(--primary); /* Используйте ваш основной цвет */
+        border-bottom-right-radius: 4px;
+    }
+
+    /* Стили для сообщений AI-бота */
+    .message.ai-bot {
+        align-items: flex-start; /* Слева */
+    }
+
+    .message.ai-bot .message-content {
+        background: rgba(138, 43, 226, 0.2); /* Фиолетовый фон для бота */
+        border: 1px solid rgba(138, 43, 226, 0.5);
+        border-bottom-left-radius: 4px;
+    }
+</style>
+
+<script>
+    const roomName = "{{ room_name }}";
+    const chatLog = document.querySelector('#chat-log');
+    const currentUsername = "{{ user.username }}";
+
+    // Имя бота (убедитесь, что оно соответствует вашему system message в Python)
+    const aiSenderName = '🤖 Gemini AI';
+
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+    );
+
+    // Прокрутка вниз при загрузке
+    chatLog.scrollTop = chatLog.scrollHeight;
+
+    // --- Функция для создания DOM-элемента сообщения ---
+    function createMessageElement(message, messageClass, senderName) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message ' + messageClass;
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <small style="display: block; font-size: 0.75rem; opacity: 0.7; margin-bottom: 0.25rem;">
+                    ${senderName}
+                </small>
+                ${message}
+            </div>
+        `;
+        return messageDiv;
+    }
+
+    // --- Обработка входящих сообщений ---
+    chatSocket.onmessage = function (e) {
+        // 1. Удаляем индикатор "Печатает..." перед добавлением реальных ответов
+        const typingIndicator = document.querySelector('#ai-typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+
+        const data = JSON.parse(e.data);
+        const message = data.message;
+        const username = data.username;
+        const isAi = data.is_ai;
+
+        let messageClass = '';
+        let senderName = username;
+        const isOwn = !isAi && username === currentUsername;
+
+        // Если это наше сообщение, которое вернулось с сервера, мы его игнорируем,
+        // так как оно уже отображено локально в обработчике onclick.
+        if (isOwn) {
+            return;
+        }
+
+        // Если это сообщение от AI
+        if (isAi) {
+            messageClass = 'ai-bot';
+            senderName = aiSenderName;
+        }
+
+        // Создание и добавление элемента
+        const messageDiv = createMessageElement(message, messageClass, senderName);
+        chatLog.appendChild(messageDiv);
+
+        // Прокрутка вниз к новому сообщению
+        chatLog.scrollTop = chatLog.scrollHeight;
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    // --- Обработка отправки сообщений ---
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // Enter key
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+
+        if (message.trim()) {
+            // 1. Отображаем сообщение пользователя немедленно (Статус "Доставлено")
+            const userMessageDiv = createMessageElement(message, 'own', currentUsername);
+            chatLog.appendChild(userMessageDiv);
+
+            // 2. Создаем и отображаем заглушку "печатает..." (Анимация ожидания)
+            // Используем простой текст для анимации (можно заменить на SVG-лоадер)
+            const loadingMessageDiv = createMessageElement('Печатает...', 'ai-bot text-muted', aiSenderName);
+            loadingMessageDiv.id = 'ai-typing-indicator'; // Ключевой ID для удаления
+            chatLog.appendChild(loadingMessageDiv);
+
+            // Прокрутка вниз
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            // 3. Отправляем сообщение на сервер
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        }
+    };
+</script>
+{% endblock %}
