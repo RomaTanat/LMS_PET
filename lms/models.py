@@ -123,6 +123,7 @@ class CodingProblem(models.Model):
     hints = models.TextField(blank=True, null=True, verbose_name="Подсказки")
     material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="coding_problems", verbose_name="Урок/Материал")
     is_required = models.BooleanField(default=True, verbose_name="Обязательная для прогресса")
+    test_cases = models.JSONField(default=list, verbose_name="Тест-кейсы (JSON)", help_text="Список объектов с полями stdin, stdout, is_hidden, timeout")
 
     def __str__(self):
         return self.title
