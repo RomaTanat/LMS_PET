@@ -10,6 +10,25 @@
 </head>
 
 <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+            dropdowns.forEach(function(dropdown) {
+                dropdown.addEventListener('mouseenter', function() {
+                    var menu = this.querySelector('.dropdown-menu');
+                    if (menu) {
+                        menu.style.display = 'block';
+                    }
+                });
+                dropdown.addEventListener('mouseleave', function() {
+                    var menu = this.querySelector('.dropdown-menu');
+                    if (menu) {
+                        menu.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
     <!-- Animated Background -->
     <div class="bg-mesh">
         <div class="blob blob-1"></div>
