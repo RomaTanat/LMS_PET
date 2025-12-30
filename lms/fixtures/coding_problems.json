@@ -1,0 +1,330 @@
+[
+  {
+    "model": "lms.codingproblem",
+    "pk": 1,
+    "fields": {
+      "title": "Hello, World!",
+      "description": "Напишите программу, которая выводит на экран строку \"Hello, World!\".",
+      "input_data": "",
+      "expected_output": "Hello, World!",
+      "reference_solution": "print(\"Hello, World!\")",
+      "hints": "Используйте функцию print().",
+      "material": 1,
+      "is_required": true,
+      "test_cases": [
+        {
+          "stdin": "",
+          "stdout": "Hello, World!",
+          "is_hidden": false,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 2,
+    "fields": {
+      "title": "Сумма двух чисел",
+      "description": "Напишите программу, которая считывает два целых числа (каждое с новой строки) и выводит их сумму.",
+      "input_data": "5\n10",
+      "expected_output": "15",
+      "reference_solution": "a = int(input())\nb = int(input())\nprint(a + b)",
+      "hints": "Не забудьте преобразовать ввод в числа с помощью int().",
+      "material": 1,
+      "is_required": true,
+      "test_cases": [
+        {
+          "stdin": "2\n3",
+          "stdout": "5",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "100\n200",
+          "stdout": "300",
+          "is_hidden": true,
+          "timeout": 2
+        },
+        {
+          "stdin": "-5\n5",
+          "stdout": "0",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 3,
+    "fields": {
+      "title": "Четное или нечетное",
+      "description": "Считайте целое число и выведите \"Even\", если оно четное, и \"Odd\", если нечетное.",
+      "input_data": "4",
+      "expected_output": "Even",
+      "reference_solution": "n = int(input())\nif n % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")",
+      "hints": "Используйте оператор остатка от деления %.",
+      "material": 1,
+      "is_required": true,
+      "test_cases": [
+        {
+          "stdin": "2",
+          "stdout": "Even",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "3",
+          "stdout": "Odd",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "0",
+          "stdout": "Even",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 4,
+    "fields": {
+      "title": "Максимум из трех",
+      "description": "Напишите программу, которая находит максимальное из трех введенных чисел.",
+      "input_data": "1\n5\n3",
+      "expected_output": "5",
+      "reference_solution": "a = int(input())\nb = int(input())\nc = int(input())\nprint(max(a, b, c))",
+      "hints": "Можно использовать встроенную функцию max() или условные операторы.",
+      "material": 1,
+      "is_required": true,
+      "test_cases": [
+        {
+          "stdin": "1\n2\n3",
+          "stdout": "3",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "10\n5\n8",
+          "stdout": "10",
+          "is_hidden": true,
+          "timeout": 2
+        },
+        {
+          "stdin": "-1\n-2\n-3",
+          "stdout": "-1",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 5,
+    "fields": {
+      "title": "Факториал",
+      "description": "Вычислите факториал введенного числа N.",
+      "input_data": "5",
+      "expected_output": "120",
+      "reference_solution": "import math\nn = int(input())\nprint(math.factorial(n))",
+      "hints": "Можно использовать цикл или math.factorial().",
+      "material": 1,
+      "is_required": true,
+      "test_cases": [
+        {
+          "stdin": "5",
+          "stdout": "120",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "0",
+          "stdout": "1",
+          "is_hidden": true,
+          "timeout": 2
+        },
+        {
+          "stdin": "1",
+          "stdout": "1",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 6,
+    "fields": {
+      "title": "Переворот строки",
+      "description": "Считайте строку и выведите её в обратном порядке.",
+      "input_data": "hello",
+      "expected_output": "olleh",
+      "reference_solution": "s = input()\nprint(s[::-1])",
+      "hints": "Используйте срезы [::-1].",
+      "material": 1,
+      "is_required": false,
+      "test_cases": [
+        {
+          "stdin": "python",
+          "stdout": "nohtyp",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "a",
+          "stdout": "a",
+          "is_hidden": true,
+          "timeout": 2
+        },
+        {
+          "stdin": "12345",
+          "stdout": "54321",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 7,
+    "fields": {
+      "title": "Подсчет гласных",
+      "description": "Посчитайте количество гласных (a, e, i, o, u) в введенной строке (без учета регистра).",
+      "input_data": "Hello World",
+      "expected_output": "3",
+      "reference_solution": "s = input().lower()\nvowels = 'aeiou'\ncount = 0\nfor char in s:\n    if char in vowels:\n        count += 1\nprint(count)",
+      "hints": "Сначала приведите строку к нижнему регистру с помощью .lower().",
+      "material": 1,
+      "is_required": false,
+      "test_cases": [
+        {
+          "stdin": "apple",
+          "stdout": "2",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "PythOn",
+          "stdout": "2",
+          "is_hidden": true,
+          "timeout": 2
+        },
+        {
+          "stdin": "rhythm",
+          "stdout": "0",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 8,
+    "fields": {
+      "title": "Список квадратов",
+      "description": "Считайте число N. Выведите квадраты всех чисел от 1 до N (включительно), каждое с новой строки.",
+      "input_data": "3",
+      "expected_output": "1\n4\n9",
+      "reference_solution": "n = int(input())\nfor i in range(1, n + 1):\n    print(i * i)",
+      "hints": "Используйте цикл for и range(1, n + 1).",
+      "material": 1,
+      "is_required": true,
+      "test_cases": [
+        {
+          "stdin": "3",
+          "stdout": "1\n4\n9",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "1",
+          "stdout": "1",
+          "is_hidden": true,
+          "timeout": 2
+        },
+        {
+          "stdin": "5",
+          "stdout": "1\n4\n9\n16\n25",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 9,
+    "fields": {
+      "title": "Палиндром",
+      "description": "Проверьте, является ли введенная строка палиндромом (читается одинаково слева направо и справа налево). Выведите \"True\" или \"False\".",
+      "input_data": "radar",
+      "expected_output": "True",
+      "reference_solution": "s = input()\nprint(s == s[::-1])",
+      "hints": "Сравните строку с её перевернутой версией.",
+      "material": 1,
+      "is_required": false,
+      "test_cases": [
+        {
+          "stdin": "level",
+          "stdout": "True",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "hello",
+          "stdout": "False",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "A",
+          "stdout": "True",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 10,
+    "fields": {
+      "title": "Фибоначчи",
+      "description": "Выведите N-ое число Фибоначчи (считая, что 0-е это 0, 1-е это 1).",
+      "input_data": "5",
+      "expected_output": "5",
+      "reference_solution": "n = int(input())\na, b = 0, 1\nfor _ in range(n):\n    a, b = b, a + b\nprint(a)",
+      "hints": "Используйте цикл для итеративного вычисления.",
+      "material": 1,
+      "is_required": false,
+      "test_cases": [
+        {
+          "stdin": "0",
+          "stdout": "0",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "1",
+          "stdout": "1",
+          "is_hidden": false,
+          "timeout": 2
+        },
+        {
+          "stdin": "6",
+          "stdout": "8",
+          "is_hidden": true,
+          "timeout": 2
+        }
+      ]
+    }
+  }
+]

@@ -120,6 +120,7 @@ class CodingProblem(models.Model):
     description = models.TextField(verbose_name="Описание задачи")
     input_data = models.TextField(verbose_name="Входные данные (тест)")
     expected_output = models.TextField(verbose_name="Ожидаемый результат")
+    reference_solution = models.TextField(blank=True, null=True, verbose_name="Эталонное решение")
     hints = models.TextField(blank=True, null=True, verbose_name="Подсказки")
     material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="coding_problems", verbose_name="Урок/Материал")
     is_required = models.BooleanField(default=True, verbose_name="Обязательная для прогресса")
