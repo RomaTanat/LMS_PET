@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,10 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-qp&i&+81e^5s$o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0').split(',')
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = ['https://*.replit.dev', 'https://*.repl.co']
+X_FRAME_OPTIONS = 'ALLOWALL'
 
 
 # Application definition
@@ -82,19 +86,12 @@ ASGI_APPLICATION = 'Lms_project.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Use PostgreSQL in Docker, SQLite locally
-DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
+# Use DATABASE_URL if available (Replit), otherwise fall back to SQLite
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-if DB_ENGINE == 'django.db.backends.postgresql':
+if DATABASE_URL:
     DATABASES = {
-        'default': {
-            'ENGINE': DB_ENGINE,
-            'NAME': config('DB_NAME', default='lms_db'),
-            'USER': config('DB_USER', default='lms_user'),
-            'PASSWORD': config('DB_PASSWORD', default='lms_password'),
-            'HOST': config('DB_HOST', default='localhost'),
-            'PORT': config('DB_PORT', default='5432'),
-        }
+        'default': dj_database_url.parse(DATABASE_URL)
     }
 else:
     DATABASES = {

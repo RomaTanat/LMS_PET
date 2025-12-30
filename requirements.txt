@@ -8,3 +8,15 @@ python-decouple>=3.8
 gunicorn>=21.2.0
 channels[daphne]>=4.0.0
 channels_redis>=4.1.0
+channels[daphne]>=4.0.0
+channels_redis>=4.1.0
+Django>=5.1.5
+django-redis>=5.4.0
+gunicorn>=21.2.0
+kafka-python>=2.0.2
+Pillow>=10.0.0
+psycopg2-binary>=2.9.9
+python-decouple>=3.8
+redis>=5.0.0
+dj-database-url
+openai
