@@ -197,12 +197,13 @@ class StudentProfile(models.Model):
 
     def update_streak(self):
         from django.utils import timezone
+        from datetime import timedelta
         today = timezone.now().date()
         
         if self.last_activity_date == today:
             return
             
-        if self.last_activity_date == today - timezone.timedelta(days=1):
+        if self.last_activity_date == today - timedelta(days=1):
             self.streak_days += 1
         else:
             self.streak_days = 1
