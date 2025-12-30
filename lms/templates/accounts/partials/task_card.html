@@ -1,0 +1,33 @@
+<div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+    <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem;">{{ task.title }}</h4>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">{{ task.description|truncatechars:80 }}</p>
+    
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+        <form action="{% url 'update_task_status' task.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <select name="status" onchange="this.form.submit()" style="background: #1e1e1e; color: #fff; border: 1px solid #333; border-radius: 4px; font-size: 0.75rem; padding: 0.2rem;">
+                <option value="TODO" {% if task.status == 'TODO' %}selected{% endif %}>To Do</option>
+                <option value="IN_PROGRESS" {% if task.status == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
+                <option value="DONE" {% if task.status == 'DONE' %}selected{% endif %}>Done</option>
+            </select>
+        </form>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+        <p style="font-size: 0.75rem; color: var(--text-muted);">💬 {{ task.comments.count }} коммент.</p>
+        <details>
+            <summary style="font-size: 0.75rem; cursor: pointer; color: var(--primary);">Подробнее & Комментарии</summary>
+            <div style="margin-top: 0.5rem;">
+                {% for comment in task.comments.all %}
+                <div style="font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.03); padding: 0.3rem 0;">
+                    <strong>{{ comment.author.username }}:</strong> {{ comment.content }}
+                </div>
+                {% endfor %}
+                <form action="{% url 'add_task_comment' task.id %}" method="post" style="margin-top: 0.5rem;">
+                    {% csrf_token %}
+                    <input type="text" name="content" placeholder="Написать..." style="background: #1e1e1e; border: 1px solid #333; color: #fff; width: 100%; font-size: 0.75rem; border-radius: 4px; padding: 0.3rem;">
+                </form>
+            </div>
+        </details>
+    </div>
+</div>

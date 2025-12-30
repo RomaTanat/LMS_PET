@@ -236,6 +236,43 @@
         </div>
         {% endif %}
 
+        <!-- Jira-lite Tasks Section -->
+        <div class="glass-panel">
+            <h2 class="section-title"><span>📋</span> Мои задачи</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <!-- TODO Column -->
+                <div class="task-column">
+                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: #94a3b8; text-transform: uppercase;">To Do</h3>
+                    {% for task in assigned_tasks %}
+                        {% if task.status == 'TODO' %}
+                            {% include 'accounts/partials/task_card.html' with task=task %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- IN PROGRESS Column -->
+                <div class="task-column">
+                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--secondary); text-transform: uppercase;">In Progress</h3>
+                    {% for task in assigned_tasks %}
+                        {% if task.status == 'IN_PROGRESS' %}
+                            {% include 'accounts/partials/task_card.html' with task=task %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- DONE Column -->
+                <div class="task-column">
+                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--success); text-transform: uppercase;">Done</h3>
+                    {% for task in assigned_tasks %}
+                        {% if task.status == 'DONE' %}
+                            {% include 'accounts/partials/task_card.html' with task=task %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
         <!-- Achievements Section -->
         <div class="glass-panel">
             <h2 class="section-title"><span>🏆</span> Достижения</h2>

@@ -145,6 +145,33 @@ class Submission(models.Model):
     def __str__(self):
         return f"Submission by {self.student.username} for {self.problem.title}"
 
+# Управление задачами (Jira-lite)
+class PersonalTask(models.Model):
+    STATUS_CHOICES = [
+        ('TODO', 'To Do'),
+        ('IN_PROGRESS', 'In Progress'),
+        ('DONE', 'Done'),
+    ]
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks_assigned", verbose_name="Студент")
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks_created", verbose_name="Ментор")
+    title = models.CharField(max_length=255, verbose_name="Название задачи")
+    description = models.TextField(verbose_name="Описание")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='TODO', verbose_name="Статус")
+    deadline = models.DateTimeField(blank=True, null=True, verbose_name="Дедлайн")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.student.username})"
+
+class TaskComment(models.Model):
+    task = models.ForeignKey(PersonalTask, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(verbose_name="Комментарий")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.author.username} on {self.task.title}"
+
 # Модель достижений (Achievements)
 class Achievement(models.Model):
     """Achievement/Badge that users can earn"""

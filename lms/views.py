@@ -111,13 +111,33 @@ def submit_solution(request, problem_id):
             submission.save()
     return redirect('course_detail', pk=problem.material.section.course.id)
 
+def update_task_status(request, task_id):
+    task = get_object_or_404(PersonalTask, id=task_id)
+    if request.user == task.student or request.user == task.teacher:
+        new_status = request.POST.get('status')
+        if new_status in dict(PersonalTask.STATUS_CHOICES):
+            task.status = new_status
+            task.save()
+    return redirect('user_profile')
+
+def add_task_comment(request, task_id):
+    task = get_object_or_404(PersonalTask, id=task_id)
+    if request.method == 'POST' and (request.user == task.student or request.user == task.teacher):
+        content = request.POST.get('content')
+        if content:
+            TaskComment.objects.create(task=task, author=request.user, content=content)
+    return redirect('user_profile')
+
 # Профиль пользователя
 class UserProfileView(LoginRequiredMixin, TemplateView):
-    template_name = "accounts/profile.html"  # Убедитесь, что у вас есть этот шаблон
+    template_name = "accounts/profile.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user  # Передаем текущего пользователя в шаблон
+        user = self.request.user
+        context['user'] = user
+        context['assigned_tasks'] = PersonalTask.objects.filter(student=user).order_by('status', '-created_at')
+        context['created_tasks'] = PersonalTask.objects.filter(teacher=user).order_by('-created_at')
         return context
 
 # Главная страница
