@@ -61,12 +61,35 @@ class Section(models.Model):
 class Material(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name="materials", verbose_name="Раздел")
     title = models.CharField(max_length=255, verbose_name="Название материала")
-    content = models.TextField(verbose_name="Содержимое материала", blank=True, null=True)
-    file = models.FileField(upload_to="materials/", blank=True, null=True, verbose_name="Файл")
-    link = models.URLField(blank=True, null=True, verbose_name="Ссылка")
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок")
+
+    class Meta:
+        ordering = ['order']
 
     def __str__(self):
         return self.title
+
+
+# Блоки контента для материала
+class ContentBlock(models.Model):
+    BLOCK_TYPES = [
+        ('TEXT', 'Текст'),
+        ('VIDEO', 'Видео'),
+        ('CODE_SNIPPET', 'Пример кода'),
+        ('FILE', 'Файл'),
+    ]
+    material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="blocks", verbose_name="Материал")
+    block_type = models.CharField(max_length=20, choices=BLOCK_TYPES, default='TEXT', verbose_name="Тип блока")
+    content = models.TextField(blank=True, null=True, verbose_name="Текстовый контент/Код")
+    video_url = models.URLField(blank=True, null=True, verbose_name="Ссылка на видео")
+    file = models.FileField(upload_to="materials/blocks/", blank=True, null=True, verbose_name="Файл")
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок")
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.block_type} block for {self.material.title}"
 
 
 # Модель теста (вопросы и ответы)
