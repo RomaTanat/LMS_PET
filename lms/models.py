@@ -240,31 +240,6 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification for {self.recipient.username}: {self.title}"
 
-# --- SIGNALS FOR AUTOMATIC NOTIFICATIONS ---
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-@receiver(post_save, sender=PersonalTask)
-def notify_task_assigned(sender, instance, created, **kwargs):
-    if created:
-        Notification.objects.create(
-            recipient=instance.student,
-            title="Новая задача",
-            message=f"Ментор {instance.teacher.username} назначил вам задачу: {instance.title}",
-            link=f"/profile/" # В идеале ссылка на саму задачу, пока на профиль
-        )
-
-@receiver(post_save, sender=Submission)
-def notify_submission_checked(sender, instance, created, **kwargs):
-    if not created: # Срабатывает при обновлении статуса (проверке)
-        Notification.objects.create(
-            recipient=instance.student,
-            title="Решение проверено",
-            message=f"Ваше решение по задаче '{instance.problem.title}' получило статус: {instance.get_status_display()}",
-            link=f"/courses/{instance.problem.material.section.course.id}/"
-        )
-# --- END SIGNALS ---
-
 # Модель достижений (Achievements)
 class Achievement(models.Model):
     """Achievement/Badge that users can earn"""
