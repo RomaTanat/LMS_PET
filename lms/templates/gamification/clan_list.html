@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-8 max-w-5xl">
+
+    <div class="flex flex-col md:flex-row gap-6 mb-8">
+        <div class="glass-panel flex-1 text-center md:text-left">
+            <h1 class="text-3xl font-bold mb-2 gradient-text">Кланы</h1>
+            <p class="text-gray-400">Объединяйтесь, чтобы побеждать вместе.</p>
+        </div>
+
+        {% if not my_clan %}
+        <div class="glass-panel w-full md:w-1/3">
+            <h3 class="text-lg font-bold mb-4">Создать клан</h3>
+            <form action="{% url 'create_clan' %}" method="post" class="flex flex-col gap-3">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Название клана" required class="bg-black/20 border border-gray-600 rounded px-3 py-2 text-white focus:border-blue-500 outline-none">
+                <input type="text" name="description" placeholder="Девиз (опционально)" class="bg-black/20 border border-gray-600 rounded px-3 py-2 text-white focus:border-blue-500 outline-none">
+                <button type="submit" class="btn btn-primary w-full py-2">⚔️ Создать</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="glass-panel w-full md:w-1/3 border border-blue-500/30 bg-blue-900/10">
+            <h3 class="text-lg font-bold mb-2 text-blue-400">Мой клан</h3>
+            <div class="text-2xl font-bold mb-1">{{ my_clan.name }}</div>
+            <p class="text-sm text-gray-400 mb-4">{{ my_clan.description }}</p>
+            <div class="text-sm text-gray-500">Участников: {{ my_clan.members.count }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="glass-panel mb-4 p-4 border-l-4 {% if message.tags == 'success' %}border-green-500 text-green-300{% else %}border-red-500 text-red-300{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for clan in clans %}
+        <div class="glass-panel p-6 flex justify-between items-center group hover:border-blue-500/50 transition-colors">
+            <div>
+                <h3 class="text-xl font-bold text-blue-300 group-hover:text-blue-200 transition-colors">{{ clan.name }}</h3>
+                <p class="text-sm text-gray-400 mb-2">{{ clan.description|default:"Нет описания" }}</p>
+                <div class="flex items-center gap-2 text-xs text-gray-500">
+                    <span>👑 {{ clan.leader.username }}</span>
+                    <span>👥 {{ clan.members.count }} участников</span>
+                </div>
+            </div>
+
+            {% if not my_clan %}
+            <a href="{% url 'join_clan' clan.id %}" class="px-4 py-2 rounded bg-gray-700 hover:bg-blue-600 hover:text-white transition-colors text-sm font-bold">
+                Вступить
+            </a>
+            {% elif my_clan == clan %}
+            <span class="px-3 py-1 rounded bg-blue-900/50 text-blue-400 text-xs border border-blue-500/30">
+                Ваш клан
+            </span>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="col-span-2 text-center py-12 text-gray-500">
+            Кланов пока нет. Будьте первыми!
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

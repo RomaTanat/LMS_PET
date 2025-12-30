@@ -1,0 +1,1547 @@
+[
+  {
+    "model": "lms.course",
+    "pk": 1,
+    "fields": {
+      "title": "Python Basics",
+      "description": "Master Python from scratch.",
+      "author": 1,
+      "created_at": "2023-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 1,
+    "fields": {
+      "course": 1,
+      "title": "Introduction & Syntax",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 1,
+    "fields": {
+      "section": 1,
+      "title": "Introduction & Syntax - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 1,
+    "fields": {
+      "material": 1,
+      "block_type": "TEXT",
+      "content": "Welcome to Introduction & Syntax - Theory 1. Here we learn about Introduction & Syntax.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 2,
+    "fields": {
+      "material": 1,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 2,
+    "fields": {
+      "section": 1,
+      "title": "Introduction & Syntax - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 3,
+    "fields": {
+      "material": 2,
+      "block_type": "TEXT",
+      "content": "Welcome to Introduction & Syntax - Practice 2. Here we learn about Introduction & Syntax.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 4,
+    "fields": {
+      "material": 2,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 1,
+    "fields": {
+      "material": 2,
+      "title": "Solve: Introduction & Syntax in Python",
+      "description": "Write a program that demonstrates Introduction & Syntax.\n\n<!-- AI_CONTEXT: User is learning Introduction & Syntax in python. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your python code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Introduction & Syntax",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 2,
+    "fields": {
+      "course": 1,
+      "title": "Variables & Data Types",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 3,
+    "fields": {
+      "section": 2,
+      "title": "Variables & Data Types - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 5,
+    "fields": {
+      "material": 3,
+      "block_type": "TEXT",
+      "content": "Welcome to Variables & Data Types - Theory 1. Here we learn about Variables & Data Types.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 6,
+    "fields": {
+      "material": 3,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 4,
+    "fields": {
+      "section": 2,
+      "title": "Variables & Data Types - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 7,
+    "fields": {
+      "material": 4,
+      "block_type": "TEXT",
+      "content": "Welcome to Variables & Data Types - Practice 2. Here we learn about Variables & Data Types.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 8,
+    "fields": {
+      "material": 4,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 2,
+    "fields": {
+      "material": 4,
+      "title": "Solve: Variables & Data Types in Python",
+      "description": "Write a program that demonstrates Variables & Data Types.\n\n<!-- AI_CONTEXT: User is learning Variables & Data Types in python. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your python code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Variables & Data Types",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 3,
+    "fields": {
+      "course": 1,
+      "title": "Conditions (If/Else)",
+      "order": 2
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 5,
+    "fields": {
+      "section": 3,
+      "title": "Conditions (If/Else) - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 9,
+    "fields": {
+      "material": 5,
+      "block_type": "TEXT",
+      "content": "Welcome to Conditions (If/Else) - Theory 1. Here we learn about Conditions (If/Else).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 10,
+    "fields": {
+      "material": 5,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 6,
+    "fields": {
+      "section": 3,
+      "title": "Conditions (If/Else) - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 11,
+    "fields": {
+      "material": 6,
+      "block_type": "TEXT",
+      "content": "Welcome to Conditions (If/Else) - Practice 2. Here we learn about Conditions (If/Else).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 12,
+    "fields": {
+      "material": 6,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 3,
+    "fields": {
+      "material": 6,
+      "title": "Solve: Conditions (If/Else) in Python",
+      "description": "Write a program that demonstrates Conditions (If/Else).\n\n<!-- AI_CONTEXT: User is learning Conditions (If/Else) in python. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your python code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Conditions (If/Else)",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 4,
+    "fields": {
+      "course": 1,
+      "title": "Loops (For/While)",
+      "order": 3
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 7,
+    "fields": {
+      "section": 4,
+      "title": "Loops (For/While) - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 13,
+    "fields": {
+      "material": 7,
+      "block_type": "TEXT",
+      "content": "Welcome to Loops (For/While) - Theory 1. Here we learn about Loops (For/While).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 14,
+    "fields": {
+      "material": 7,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 8,
+    "fields": {
+      "section": 4,
+      "title": "Loops (For/While) - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 15,
+    "fields": {
+      "material": 8,
+      "block_type": "TEXT",
+      "content": "Welcome to Loops (For/While) - Practice 2. Here we learn about Loops (For/While).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 16,
+    "fields": {
+      "material": 8,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 4,
+    "fields": {
+      "material": 8,
+      "title": "Solve: Loops (For/While) in Python",
+      "description": "Write a program that demonstrates Loops (For/While).\n\n<!-- AI_CONTEXT: User is learning Loops (For/While) in python. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your python code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Loops (For/While)",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 5,
+    "fields": {
+      "course": 1,
+      "title": "Arrays & Collections",
+      "order": 4
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 9,
+    "fields": {
+      "section": 5,
+      "title": "Arrays & Collections - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 17,
+    "fields": {
+      "material": 9,
+      "block_type": "TEXT",
+      "content": "Welcome to Arrays & Collections - Theory 1. Here we learn about Arrays & Collections.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 18,
+    "fields": {
+      "material": 9,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 10,
+    "fields": {
+      "section": 5,
+      "title": "Arrays & Collections - Practice 2",
+      "order": 1,
+      "xp_reward": 50
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 19,
+    "fields": {
+      "material": 10,
+      "block_type": "TEXT",
+      "content": "Welcome to Arrays & Collections - Practice 2. Here we learn about Arrays & Collections.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 20,
+    "fields": {
+      "material": 10,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 5,
+    "fields": {
+      "material": 10,
+      "title": "Solve: Arrays & Collections in Python",
+      "description": "Write a program that demonstrates Arrays & Collections.\n\n<!-- AI_CONTEXT: User is learning Arrays & Collections in python. Difficulty: HARD. -->",
+      "difficulty": "HARD",
+      "starter_code": "// Write your python code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Arrays & Collections",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.course",
+    "pk": 2,
+    "fields": {
+      "title": "Java Basics",
+      "description": "Learn Java object-oriented programming.",
+      "author": 1,
+      "created_at": "2023-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 6,
+    "fields": {
+      "course": 2,
+      "title": "Introduction & Syntax",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 11,
+    "fields": {
+      "section": 6,
+      "title": "Introduction & Syntax - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 21,
+    "fields": {
+      "material": 11,
+      "block_type": "TEXT",
+      "content": "Welcome to Introduction & Syntax - Theory 1. Here we learn about Introduction & Syntax.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 22,
+    "fields": {
+      "material": 11,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 12,
+    "fields": {
+      "section": 6,
+      "title": "Introduction & Syntax - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 23,
+    "fields": {
+      "material": 12,
+      "block_type": "TEXT",
+      "content": "Welcome to Introduction & Syntax - Practice 2. Here we learn about Introduction & Syntax.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 24,
+    "fields": {
+      "material": 12,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 6,
+    "fields": {
+      "material": 12,
+      "title": "Solve: Introduction & Syntax in Java",
+      "description": "Write a program that demonstrates Introduction & Syntax.\n\n<!-- AI_CONTEXT: User is learning Introduction & Syntax in java. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your java code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Introduction & Syntax",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 7,
+    "fields": {
+      "course": 2,
+      "title": "Variables & Data Types",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 13,
+    "fields": {
+      "section": 7,
+      "title": "Variables & Data Types - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 25,
+    "fields": {
+      "material": 13,
+      "block_type": "TEXT",
+      "content": "Welcome to Variables & Data Types - Theory 1. Here we learn about Variables & Data Types.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 26,
+    "fields": {
+      "material": 13,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 14,
+    "fields": {
+      "section": 7,
+      "title": "Variables & Data Types - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 27,
+    "fields": {
+      "material": 14,
+      "block_type": "TEXT",
+      "content": "Welcome to Variables & Data Types - Practice 2. Here we learn about Variables & Data Types.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 28,
+    "fields": {
+      "material": 14,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 7,
+    "fields": {
+      "material": 14,
+      "title": "Solve: Variables & Data Types in Java",
+      "description": "Write a program that demonstrates Variables & Data Types.\n\n<!-- AI_CONTEXT: User is learning Variables & Data Types in java. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your java code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Variables & Data Types",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 8,
+    "fields": {
+      "course": 2,
+      "title": "Conditions (If/Else)",
+      "order": 2
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 15,
+    "fields": {
+      "section": 8,
+      "title": "Conditions (If/Else) - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 29,
+    "fields": {
+      "material": 15,
+      "block_type": "TEXT",
+      "content": "Welcome to Conditions (If/Else) - Theory 1. Here we learn about Conditions (If/Else).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 30,
+    "fields": {
+      "material": 15,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 16,
+    "fields": {
+      "section": 8,
+      "title": "Conditions (If/Else) - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 31,
+    "fields": {
+      "material": 16,
+      "block_type": "TEXT",
+      "content": "Welcome to Conditions (If/Else) - Practice 2. Here we learn about Conditions (If/Else).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 32,
+    "fields": {
+      "material": 16,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 8,
+    "fields": {
+      "material": 16,
+      "title": "Solve: Conditions (If/Else) in Java",
+      "description": "Write a program that demonstrates Conditions (If/Else).\n\n<!-- AI_CONTEXT: User is learning Conditions (If/Else) in java. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your java code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Conditions (If/Else)",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 9,
+    "fields": {
+      "course": 2,
+      "title": "Loops (For/While)",
+      "order": 3
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 17,
+    "fields": {
+      "section": 9,
+      "title": "Loops (For/While) - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 33,
+    "fields": {
+      "material": 17,
+      "block_type": "TEXT",
+      "content": "Welcome to Loops (For/While) - Theory 1. Here we learn about Loops (For/While).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 34,
+    "fields": {
+      "material": 17,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 18,
+    "fields": {
+      "section": 9,
+      "title": "Loops (For/While) - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 35,
+    "fields": {
+      "material": 18,
+      "block_type": "TEXT",
+      "content": "Welcome to Loops (For/While) - Practice 2. Here we learn about Loops (For/While).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 36,
+    "fields": {
+      "material": 18,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 9,
+    "fields": {
+      "material": 18,
+      "title": "Solve: Loops (For/While) in Java",
+      "description": "Write a program that demonstrates Loops (For/While).\n\n<!-- AI_CONTEXT: User is learning Loops (For/While) in java. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your java code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Loops (For/While)",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 10,
+    "fields": {
+      "course": 2,
+      "title": "Arrays & Collections",
+      "order": 4
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 19,
+    "fields": {
+      "section": 10,
+      "title": "Arrays & Collections - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 37,
+    "fields": {
+      "material": 19,
+      "block_type": "TEXT",
+      "content": "Welcome to Arrays & Collections - Theory 1. Here we learn about Arrays & Collections.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 38,
+    "fields": {
+      "material": 19,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 20,
+    "fields": {
+      "section": 10,
+      "title": "Arrays & Collections - Practice 2",
+      "order": 1,
+      "xp_reward": 50
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 39,
+    "fields": {
+      "material": 20,
+      "block_type": "TEXT",
+      "content": "Welcome to Arrays & Collections - Practice 2. Here we learn about Arrays & Collections.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 40,
+    "fields": {
+      "material": 20,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 10,
+    "fields": {
+      "material": 20,
+      "title": "Solve: Arrays & Collections in Java",
+      "description": "Write a program that demonstrates Arrays & Collections.\n\n<!-- AI_CONTEXT: User is learning Arrays & Collections in java. Difficulty: HARD. -->",
+      "difficulty": "HARD",
+      "starter_code": "// Write your java code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Arrays & Collections",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.course",
+    "pk": 3,
+    "fields": {
+      "title": "C++ Basics",
+      "description": "Dive into C++ low-level programming.",
+      "author": 1,
+      "created_at": "2023-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 11,
+    "fields": {
+      "course": 3,
+      "title": "Introduction & Syntax",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 21,
+    "fields": {
+      "section": 11,
+      "title": "Introduction & Syntax - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 41,
+    "fields": {
+      "material": 21,
+      "block_type": "TEXT",
+      "content": "Welcome to Introduction & Syntax - Theory 1. Here we learn about Introduction & Syntax.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 42,
+    "fields": {
+      "material": 21,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 22,
+    "fields": {
+      "section": 11,
+      "title": "Introduction & Syntax - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 43,
+    "fields": {
+      "material": 22,
+      "block_type": "TEXT",
+      "content": "Welcome to Introduction & Syntax - Practice 2. Here we learn about Introduction & Syntax.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 44,
+    "fields": {
+      "material": 22,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 11,
+    "fields": {
+      "material": 22,
+      "title": "Solve: Introduction & Syntax in Cpp",
+      "description": "Write a program that demonstrates Introduction & Syntax.\n\n<!-- AI_CONTEXT: User is learning Introduction & Syntax in cpp. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your cpp code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Introduction & Syntax",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 12,
+    "fields": {
+      "course": 3,
+      "title": "Variables & Data Types",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 23,
+    "fields": {
+      "section": 12,
+      "title": "Variables & Data Types - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 45,
+    "fields": {
+      "material": 23,
+      "block_type": "TEXT",
+      "content": "Welcome to Variables & Data Types - Theory 1. Here we learn about Variables & Data Types.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 46,
+    "fields": {
+      "material": 23,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 24,
+    "fields": {
+      "section": 12,
+      "title": "Variables & Data Types - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 47,
+    "fields": {
+      "material": 24,
+      "block_type": "TEXT",
+      "content": "Welcome to Variables & Data Types - Practice 2. Here we learn about Variables & Data Types.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 48,
+    "fields": {
+      "material": 24,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 12,
+    "fields": {
+      "material": 24,
+      "title": "Solve: Variables & Data Types in Cpp",
+      "description": "Write a program that demonstrates Variables & Data Types.\n\n<!-- AI_CONTEXT: User is learning Variables & Data Types in cpp. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your cpp code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Variables & Data Types",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 13,
+    "fields": {
+      "course": 3,
+      "title": "Conditions (If/Else)",
+      "order": 2
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 25,
+    "fields": {
+      "section": 13,
+      "title": "Conditions (If/Else) - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 49,
+    "fields": {
+      "material": 25,
+      "block_type": "TEXT",
+      "content": "Welcome to Conditions (If/Else) - Theory 1. Here we learn about Conditions (If/Else).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 50,
+    "fields": {
+      "material": 25,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 26,
+    "fields": {
+      "section": 13,
+      "title": "Conditions (If/Else) - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 51,
+    "fields": {
+      "material": 26,
+      "block_type": "TEXT",
+      "content": "Welcome to Conditions (If/Else) - Practice 2. Here we learn about Conditions (If/Else).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 52,
+    "fields": {
+      "material": 26,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 13,
+    "fields": {
+      "material": 26,
+      "title": "Solve: Conditions (If/Else) in Cpp",
+      "description": "Write a program that demonstrates Conditions (If/Else).\n\n<!-- AI_CONTEXT: User is learning Conditions (If/Else) in cpp. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your cpp code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Conditions (If/Else)",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 14,
+    "fields": {
+      "course": 3,
+      "title": "Loops (For/While)",
+      "order": 3
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 27,
+    "fields": {
+      "section": 14,
+      "title": "Loops (For/While) - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 53,
+    "fields": {
+      "material": 27,
+      "block_type": "TEXT",
+      "content": "Welcome to Loops (For/While) - Theory 1. Here we learn about Loops (For/While).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 54,
+    "fields": {
+      "material": 27,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 28,
+    "fields": {
+      "section": 14,
+      "title": "Loops (For/While) - Practice 2",
+      "order": 1,
+      "xp_reward": 25
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 55,
+    "fields": {
+      "material": 28,
+      "block_type": "TEXT",
+      "content": "Welcome to Loops (For/While) - Practice 2. Here we learn about Loops (For/While).",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 56,
+    "fields": {
+      "material": 28,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 14,
+    "fields": {
+      "material": 28,
+      "title": "Solve: Loops (For/While) in Cpp",
+      "description": "Write a program that demonstrates Loops (For/While).\n\n<!-- AI_CONTEXT: User is learning Loops (For/While) in cpp. Difficulty: MEDIUM. -->",
+      "difficulty": "MEDIUM",
+      "starter_code": "// Write your cpp code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Loops (For/While)",
+      "is_required": true
+    }
+  },
+  {
+    "model": "lms.section",
+    "pk": 15,
+    "fields": {
+      "course": 3,
+      "title": "Arrays & Collections",
+      "order": 4
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 29,
+    "fields": {
+      "section": 15,
+      "title": "Arrays & Collections - Theory 1",
+      "order": 0,
+      "xp_reward": 10
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 57,
+    "fields": {
+      "material": 29,
+      "block_type": "TEXT",
+      "content": "Welcome to Arrays & Collections - Theory 1. Here we learn about Arrays & Collections.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 58,
+    "fields": {
+      "material": 29,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.material",
+    "pk": 30,
+    "fields": {
+      "section": 15,
+      "title": "Arrays & Collections - Practice 2",
+      "order": 1,
+      "xp_reward": 50
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 59,
+    "fields": {
+      "material": 30,
+      "block_type": "TEXT",
+      "content": "Welcome to Arrays & Collections - Practice 2. Here we learn about Arrays & Collections.",
+      "order": 0
+    }
+  },
+  {
+    "model": "lms.contentblock",
+    "pk": 60,
+    "fields": {
+      "material": 30,
+      "block_type": "VIDEO",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "order": 1
+    }
+  },
+  {
+    "model": "lms.codingproblem",
+    "pk": 15,
+    "fields": {
+      "material": 30,
+      "title": "Solve: Arrays & Collections in Cpp",
+      "description": "Write a program that demonstrates Arrays & Collections.\n\n<!-- AI_CONTEXT: User is learning Arrays & Collections in cpp. Difficulty: HARD. -->",
+      "difficulty": "HARD",
+      "starter_code": "// Write your cpp code here\n",
+      "input_data": "10",
+      "expected_output": "Result: 10",
+      "test_cases": [
+        {
+          "stdin": "10",
+          "stdout": "Result: 10",
+          "is_hidden": false
+        },
+        {
+          "stdin": "5",
+          "stdout": "Result: 5",
+          "is_hidden": true
+        },
+        {
+          "stdin": "0",
+          "stdout": "Result: 0",
+          "is_hidden": true
+        }
+      ],
+      "reference_solution": "// Solution for Arrays & Collections",
+      "is_required": true
+    }
+  }
+]

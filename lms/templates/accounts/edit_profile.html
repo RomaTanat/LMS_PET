@@ -1,63 +1,60 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container" style="display: flex; justify-content: center; padding: 2rem;">
-    <div class="glass-panel" style="width: 100%; max-width: 600px; padding: 2.5rem;">
-        <h1 class="section-title text-center" style="margin-bottom: 2rem;">Редактирование профиля</h1>
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+    <div class="glass-panel p-8">
+        <h1 class="text-3xl font-bold mb-6 text-center gradient-text">Редактирование профиля</h1>
 
-        <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <form method="post" enctype="multipart/form-data" class="flex flex-col gap-6">
             {% csrf_token %}
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <label style="color: var(--text-muted); font-size: 0.9rem;">Имя пользователя</label>
-                {{ user_form.username }}
+            {% if form.non_field_errors %}
+                <div class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-lg">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label class="text-gray-400 text-sm font-semibold">Имя</label>
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-gray-400 text-sm font-semibold">Фамилия</label>
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <label style="color: var(--text-muted); font-size: 0.9rem;">Email</label>
-                {{ user_form.email }}
+            <div class="flex flex-col gap-2">
+                <label class="text-gray-400 text-sm font-semibold">Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <label style="color: var(--text-muted); font-size: 0.9rem;">Аватар</label>
-                {{ profile_form.avatar }}
+            <div class="flex flex-col gap-2">
+                <label class="text-gray-400 text-sm font-semibold">О себе</label>
+                {{ form.bio }}
+                {{ form.bio.errors }}
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <label style="color: var(--text-muted); font-size: 0.9rem;">Приоритеты</label>
-                {{ profile_form.priorities }}
+            <div class="flex flex-col gap-2">
+                <label class="text-gray-400 text-sm font-semibold">Аватар</label>
+                <div class="flex items-center gap-4">
+                    {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" class="w-16 h-16 rounded-full object-cover border-2 border-gray-600">
+                    {% endif %}
+                    {{ form.avatar }}
+                </div>
+                {{ form.avatar.errors }}
             </div>
 
-            <button type="submit" class="btn btn-primary w-full" style="margin-top: 1rem;">
-                Сохранить изменения
-            </button>
+            <div class="flex gap-4 mt-4">
+                <button type="submit" class="btn btn-primary flex-1 py-3 font-bold">💾 Сохранить изменения</button>
+                <a href="{% url 'user_profile' %}" class="btn btn-outline flex-1 py-3 text-center">Отмена</a>
+            </div>
         </form>
     </div>
 </div>
-
-<style>
-    /* Custom styles for form inputs to match theme */
-    input[type="text"],
-    input[type="password"],
-    input[type="email"],
-    textarea,
-    input[type="file"] {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        color: white;
-        outline: none;
-        transition: all 0.3s ease;
-    }
-
-    input[type="text"]:focus,
-    input[type="password"]:focus,
-    input[type="email"]:focus,
-    textarea:focus {
-        border-color: var(--primary);
-        background: rgba(255, 255, 255, 0.1);
-    }
-</style>
 {% endblock %}

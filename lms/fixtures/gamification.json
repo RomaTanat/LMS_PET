@@ -1,0 +1,64 @@
+[
+  {
+    "model": "lms.shopitem",
+    "pk": 1,
+    "fields": {
+      "name": "Matrix Theme",
+      "description": "Темная тема с зеленым кодом для настоящих хакеров.",
+      "cost": 500,
+      "item_type": "THEME",
+      "metadata": "{\"theme_name\": \"matrix\"}",
+      "icon": "📟"
+    }
+  },
+  {
+    "model": "lms.shopitem",
+    "pk": 2,
+    "fields": {
+      "name": "Golden Frame",
+      "description": "Золотая рамка для вашего аватара. Показывает статус!",
+      "cost": 1000,
+      "item_type": "FRAME",
+      "metadata": "{\"css_class\": \"border-yellow-500\"}",
+      "icon": "🖼️"
+    }
+  },
+  {
+    "model": "lms.shopitem",
+    "pk": 3,
+    "fields": {
+      "name": "Streak Freeze",
+      "description": "Замораживает ваш стрик на один день, если вы пропустите занятие.",
+      "cost": 200,
+      "item_type": "UTILITY",
+      "metadata": "{}",
+      "icon": "❄️"
+    }
+  },
+  {
+    "model": "lms.achievement",
+    "pk": 101,
+    "fields": {
+      "name": "Ночная сова",
+      "description": "Решите задачу между 2:00 и 5:00 утра.",
+      "icon": "🦉",
+      "criteria_type": "night_owl",
+      "criteria_value": 1,
+      "points": 50,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "lms.achievement",
+    "pk": 102,
+    "fields": {
+      "name": "Снайпер",
+      "description": "Решите задачу с первой попытки.",
+      "icon": "🎯",
+      "criteria_type": "sniper",
+      "criteria_value": 1,
+      "points": 30,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  }
+]

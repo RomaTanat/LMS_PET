@@ -68,12 +68,12 @@ def analyze_code_submission(submission):
             
     if all_passed:
         submission.status = 'ACCEPTED'
-        submission.feedback = "Все тесты пройдены успешно!"
+        submission.feedback = json.dumps({"warm_hint": "Отличная работа! Все тесты пройдены."})
     else:
         submission.status = 'FAILED'
         # --- AI ANALYSIS (LLM) ---
-        ai_feedback = get_ai_feedback(code, results[-1])
-        submission.feedback = f"Тесты не пройдены. {ai_feedback}"
+        ai_feedback = get_ai_feedback(code, results[-1], problem.reference_solution)
+        submission.feedback = json.dumps(ai_feedback)
         
     submission.save()
     return submission
@@ -81,7 +81,7 @@ def analyze_code_submission(submission):
 AI_INTEGRATIONS_OPENAI_API_KEY = os.environ.get("AI_INTEGRATIONS_OPENAI_API_KEY")
 AI_INTEGRATIONS_OPENAI_BASE_URL = os.environ.get("AI_INTEGRATIONS_OPENAI_BASE_URL")
 
-def get_ai_feedback(code, failure_reason):
+def get_ai_feedback(code, failure_reason, reference_solution=None):
     try:
         from openai import OpenAI
         client = OpenAI(
@@ -89,6 +89,15 @@ def get_ai_feedback(code, failure_reason):
             base_url=AI_INTEGRATIONS_OPENAI_BASE_URL
         )
         
+        reference_text = ""
+        if reference_solution:
+            reference_text = f"""
+            Эталонное решение:
+            ```python
+            {reference_solution}
+            ```
+            """
+
         prompt = f"""
         Ты - опытный ментор по Python. Студент пытается решить задачу, но его код не проходит тесты.
         
@@ -96,12 +105,16 @@ def get_ai_feedback(code, failure_reason):
         ```python
         {code}
         ```
+        {reference_text}
         
         Результат теста:
         {json.dumps(failure_reason)}
         
-        Дай короткую, но емкую подсказку, что именно не так в логике кода. Не давай готовое решение, направь студента.
-        Ответ верни в формате JSON: {{"hint": "текст подсказки"}}
+        Твоя задача вернуть JSON с двумя ключами:
+        1. "warm_hint" (String): Мягкая наводка на решение. Тон: ободряющий, наставнический. Пример: "Кажется, ты близок! Посмотри внимательнее на условия цикла..."
+        2. "alert_error" (String): Четкое указание на место поломки или критическую ошибку. Тон: строгий, технический. Пример: "IndexError на строке 5. Ты пытаешься обратиться к элементу за пределами списка."
+
+        Ответ верни в формате JSON.
         """
         
         # the newest OpenAI model is "gpt-5" which was released August 7, 2025.
@@ -112,6 +125,13 @@ def get_ai_feedback(code, failure_reason):
             response_format={"type": "json_object"}
         )
         
-        return json.loads(response.choices[0].message.content).get('hint', 'Попробуй проверить логику еще раз.')
+        content = json.loads(response.choices[0].message.content)
+        return {
+            "warm_hint": content.get("warm_hint", "Попробуй проверить логику еще раз."),
+            "alert_error": content.get("alert_error", "Ошибка выполнения.")
+        }
     except Exception as e:
-        return f"Ошибка при анализе кода: {str(e)}"
+        return {
+            "warm_hint": "Не удалось получить подсказку от AI.",
+            "alert_error": f"Ошибка системы анализа: {str(e)}"
+        }
