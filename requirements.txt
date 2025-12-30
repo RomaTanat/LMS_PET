@@ -20,3 +20,4 @@ python-decouple>=3.8
 redis>=5.0.0
 dj-database-url
 openai
+openai

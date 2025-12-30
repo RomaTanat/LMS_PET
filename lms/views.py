@@ -74,6 +74,8 @@ class CourseDetailView(DetailView):
         context['sections'] = sections
         return context
 
+from .services import analyze_code_submission
+
 def submit_solution(request, problem_id):
     problem = get_object_or_404(CodingProblem, id=problem_id)
     if request.method == 'POST':
@@ -82,32 +84,11 @@ def submit_solution(request, problem_id):
             submission = form.save(commit=False)
             submission.problem = problem
             submission.student = request.user
+            submission.save()
             
-            # Simple Variant B implementation
-            try:
-                # Security note: In production use a sandbox like Docker
-                code = submission.code
-                result = subprocess.run(
-                    [sys.executable, "-c", code],
-                    input=problem.input_data,
-                    capture_output=True,
-                    text=True,
-                    timeout=5
-                )
-                
-                output = result.stdout.strip()
-                if output == problem.expected_output.strip():
-                    submission.status = 'ACCEPTED'
-                else:
-                    submission.status = 'FAILED'
-                    submission.feedback = f"Expected: {problem.expected_output}\nGot: {output}\nError: {result.stderr}"
-            except subprocess.TimeoutExpired:
-                submission.status = 'FAILED'
-                submission.feedback = "Execution timeout"
-            except Exception as e:
-                submission.status = 'FAILED'
-                submission.feedback = str(e)
-                
+            # Запускаем фоновый анализ
+            analyze_code_submission(submission)
+            
             # Начисление XP за принятое решение
             if submission.status == 'ACCEPTED':
                 if hasattr(request.user, 'student_profile'):
