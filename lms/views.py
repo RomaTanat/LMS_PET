@@ -118,6 +118,14 @@ def submit_solution(request, problem_id):
             submission.save()
     return redirect('course_detail', pk=problem.material.section.course.id)
 
+def mark_as_read(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
+    notification.is_read = True
+    notification.save()
+    if notification.link:
+        return redirect(notification.link)
+    return redirect('user_profile')
+
 def update_task_status(request, task_id):
     task = get_object_or_404(PersonalTask, id=task_id)
     if request.user == task.student or request.user == task.teacher:
