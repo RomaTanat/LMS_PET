@@ -108,6 +108,13 @@ def submit_solution(request, problem_id):
                 submission.status = 'FAILED'
                 submission.feedback = str(e)
                 
+            # Начисление XP за принятое решение
+            if submission.status == 'ACCEPTED':
+                if hasattr(request.user, 'student_profile'):
+                    profile = request.user.student_profile
+                    profile.add_xp(50) # Базово 50 XP за задачу
+                    profile.update_streak()
+                
             submission.save()
     return redirect('course_detail', pk=problem.material.section.course.id)
 

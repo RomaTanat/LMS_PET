@@ -172,6 +172,57 @@ class TaskComment(models.Model):
     def __str__(self):
         return f"Comment by {self.author.username} on {self.task.title}"
 
+# Профиль студента с геймификацией
+class StudentProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
+    level = models.IntegerField(default=1, verbose_name="Уровень")
+    current_xp = models.IntegerField(default=0, verbose_name="Опыт на уровне")
+    total_xp = models.IntegerField(default=0, verbose_name="Всего опыта")
+    streak_days = models.IntegerField(default=0, verbose_name="Дней подряд")
+    last_activity_date = models.DateField(null=True, blank=True, verbose_name="Дата последней активности")
+
+    def add_xp(self, amount):
+        self.current_xp += amount
+        self.total_xp += amount
+        
+        # Геометрическая прогрессия: опыт для следующего уровня = 100 * (1.5 ** (level - 1))
+        xp_needed = int(100 * (1.5 ** (self.level - 1)))
+        
+        while self.current_xp >= xp_needed:
+            self.current_xp -= xp_needed
+            self.level += 1
+            xp_needed = int(100 * (1.5 ** (self.level - 1)))
+        
+        self.save()
+
+    def update_streak(self):
+        from django.utils import timezone
+        today = timezone.now().date()
+        
+        if self.last_activity_date == today:
+            return
+            
+        if self.last_activity_date == today - timezone.timedelta(days=1):
+            self.streak_days += 1
+        else:
+            self.streak_days = 1
+            
+        self.last_activity_date = today
+        self.save()
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=User)
+def create_student_profile(sender, instance, created, **kwargs):
+    if created:
+        StudentProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_student_profile(sender, instance, **kwargs):
+    if hasattr(instance, 'student_profile'):
+        instance.student_profile.save()
+
 # Модель достижений (Achievements)
 class Achievement(models.Model):
     """Achievement/Badge that users can earn"""
