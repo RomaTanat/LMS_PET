@@ -33,16 +33,16 @@ class CourseDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         course = self.object
 
-        # Получаем все разделы с материалами и тестами
+        # Получаем все разделы с материалами, их блоками и тестами
         sections = course.sections.prefetch_related(
-            'materials', 'tests'
+            'materials__blocks', 'tests'
         ).all()
 
         # Обработка вариантов ответов для тестов
         for section in sections:
-            section.materials = section.materials.all()
-            section.tests = section.tests.all()
-            for test in section.tests:
+            section.materials_list = section.materials.all()
+            section.tests_list = section.tests.all()
+            for test in section.tests_list:
                 test.answer_choices = test.answer_choices.split(',')
 
         context['sections'] = sections

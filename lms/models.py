@@ -3,6 +3,12 @@ from django.db import models
 from django.views.generic import DetailView
 
 
+from django.template.defaultfilters import register
+
+@register.filter
+def split(value, arg):
+    return value.split(arg)
+
 # Модель пользователя
 class User(AbstractUser):
     bio = models.TextField(blank=True, null=True)

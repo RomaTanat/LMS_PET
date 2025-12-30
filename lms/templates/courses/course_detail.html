@@ -20,25 +20,33 @@
                 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <span>📚</span> Материалы
             </h4>
-            {% for material in section.materials.all %}
+            {% for material in section.materials_list %}
             <div
-                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
-                <h5 style="font-weight: 600; margin-bottom: 0.5rem;">{{ material.title }}</h5>
-                <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">{{ material.content }}</p>
-
-                <div style="display: flex; gap: 1rem;">
-                    {% if material.file %}
-                    <a href="{{ material.file.url }}" download class="btn btn-outline"
-                        style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                        📥 Скачать
-                    </a>
-                    {% endif %}
-                    {% if material.link %}
-                    <a href="{{ material.link }}" target="_blank" class="btn btn-primary"
-                        style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                        🔗 Перейти
-                    </a>
-                    {% endif %}
+                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <h5 style="font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem; color: var(--secondary);">{{ material.title }}</h5>
+                
+                <div class="content-blocks">
+                    {% for block in material.blocks.all %}
+                        <div class="content-block mb-4">
+                            {% if block.block_type == 'TEXT' %}
+                                <div class="text-content" style="line-height: 1.6;">{{ block.content|linebreaks }}</div>
+                            {% elif block.block_type == 'VIDEO' %}
+                                <div class="video-container" style="margin: 1rem 0;">
+                                    <iframe width="100%" height="400" src="{{ block.video_url }}" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>
+                                </div>
+                            {% elif block.block_type == 'CODE_SNIPPET' %}
+                                <div class="code-snippet" style="background: #1e1e1e; padding: 1rem; border-radius: 8px; font-family: 'Courier New', Courier, monospace; overflow-x: auto;">
+                                    <pre style="margin: 0; color: #d4d4d4;"><code>{{ block.content }}</code></pre>
+                                </div>
+                            {% elif block.block_type == 'FILE' %}
+                                <div class="file-download" style="margin-top: 0.5rem;">
+                                    <a href="{{ block.file.url }}" download class="btn btn-outline" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                        📥 Скачать: {{ block.file.name|split:"/"|last }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             {% empty %}
@@ -50,7 +58,7 @@
                 style="font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <span>📝</span> Тесты
             </h4>
-            {% for test in section.tests.all %}
+            {% for test in section.tests_list %}
             <div
                 style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
                 <p style="font-weight: 600; margin-bottom: 0.5rem;">{{ test.question }}</p>
