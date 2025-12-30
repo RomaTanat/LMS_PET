@@ -224,6 +224,22 @@ def save_student_profile(sender, instance, **kwargs):
     if hasattr(instance, 'student_profile'):
         instance.student_profile.save()
 
+class Notification(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications', verbose_name="Получатель")
+    title = models.CharField(max_length=255, verbose_name="Заголовок")
+    message = models.TextField(verbose_name="Текст уведомления")
+    link = models.CharField(max_length=255, blank=True, null=True, verbose_name="Ссылка")
+    is_read = models.BooleanField(default=False, verbose_name="Прочитано")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Уведомление"
+        verbose_name_plural = "Уведомления"
+
+    def __str__(self):
+        return f"{self.title} for {self.recipient.username}"
+
 # Модель достижений (Achievements)
 class Achievement(models.Model):
     """Achievement/Badge that users can earn"""
