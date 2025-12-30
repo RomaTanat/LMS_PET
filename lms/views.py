@@ -118,6 +118,8 @@ def submit_solution(request, problem_id):
             submission.save()
     return redirect('course_detail', pk=problem.material.section.course.id)
 
+from .models import Course, Section, Material, CodingProblem, Submission, PersonalTask, TaskComment, Notification, User
+
 def mark_as_read(request, notification_id):
     notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
     notification.is_read = True
