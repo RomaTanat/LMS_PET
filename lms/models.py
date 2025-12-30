@@ -76,13 +76,15 @@ class Material(models.Model):
         return self.title
 
 
-# Блоки контента для материала
+    # Блоки контента для материала
 class ContentBlock(models.Model):
     BLOCK_TYPES = [
         ('TEXT', 'Текст'),
         ('VIDEO', 'Видео'),
         ('CODE_SNIPPET', 'Пример кода'),
         ('FILE', 'Файл'),
+        ('PRACTICE', 'Практика кода'),
+        ('TASK', 'Задача'),
     ]
     material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="blocks", verbose_name="Материал")
     block_type = models.CharField(max_length=20, choices=BLOCK_TYPES, default='TEXT', verbose_name="Тип блока")
@@ -90,6 +92,9 @@ class ContentBlock(models.Model):
     video_url = models.URLField(blank=True, null=True, verbose_name="Ссылка на видео")
     file = models.FileField(upload_to="materials/blocks/", blank=True, null=True, verbose_name="Файл")
     order = models.PositiveIntegerField(default=0, verbose_name="Порядок")
+
+    # Дополнительные поля для практики и задач
+    metadata = models.JSONField(blank=True, null=True, verbose_name="Метаданные (LeetCode/Jira style)")
 
     class Meta:
         ordering = ['order']
