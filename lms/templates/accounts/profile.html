@@ -219,9 +219,16 @@
                  <a href="{% url 'clan_list' %}" class="btn btn-outline text-center">⚔️ Кланы</a>
             </div>
 
-            <a href="{% url 'logout' %}" class="btn btn-outline w-full">
-                <span>🚪</span> Выйти из аккаунта
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary w-full mb-4 text-center">
+                <span>✏️</span> Редактировать профиль
             </a>
+
+            <form method="post" action="{% url 'logout' %}" class="w-full">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline w-full text-center">
+                    <span>🚪</span> Выйти из аккаунта
+                </button>
+            </form>
         </div>
     </aside>
 

@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, UpdateView
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Course, Section, Material, Test, CodingProblem, Submission
-from .forms import SubmissionForm
+from .forms import SubmissionForm, ProfileUpdateForm
 from django.db.models import Q
+from django.urls import reverse_lazy
 import subprocess
 import sys
 
@@ -207,6 +208,15 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
         context['assigned_tasks'] = PersonalTask.objects.filter(student=user).order_by('status', '-created_at')
         context['created_tasks'] = PersonalTask.objects.filter(teacher=user).order_by('-created_at')
         return context
+
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = ProfileUpdateForm
+    template_name = "accounts/edit_profile.html"
+    success_url = reverse_lazy('user_profile')
+
+    def get_object(self):
+        return self.request.user
 
 # Главная страница
 def home(request):

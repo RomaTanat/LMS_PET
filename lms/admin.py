@@ -1,38 +1,59 @@
 from django.contrib import admin
-from .models import Course, Section, Material, Test
+from django.contrib.auth.admin import UserAdmin
+from .models import User, Course, Section, Material, ContentBlock, Test, CodingProblem, ShopItem, Achievement, Clan
 
-# Инлайн форма для разделов
-class SectionInline(admin.TabularInline):
-    model = Section
-    extra = 1  # Показывать одну пустую строку для добавления нового раздела
-    fields = ['title', 'order']  # Поля для редактирования
+# --- User Admin ---
+admin.site.register(User, UserAdmin)
 
-# Инлайн форма для материалов
+# --- Content Structure Admins ---
+
+class ContentBlockInline(admin.StackedInline):
+    model = ContentBlock
+    extra = 0
+    sortable_field_name = "order"
+
+class CodingProblemInline(admin.StackedInline):
+    model = CodingProblem
+    extra = 0
+
+@admin.register(Material)
+class MaterialAdmin(admin.ModelAdmin):
+    list_display = ('title', 'section', 'order')
+    list_filter = ('section__course', 'section')
+    inlines = [ContentBlockInline, CodingProblemInline]
+    search_fields = ('title', 'section__title')
+
 class MaterialInline(admin.TabularInline):
     model = Material
-    extra = 1  # Показывать одну пустую строку для добавления нового материала
-    fields = ['title', 'content', 'file', 'link']  # Поля для редактирования
-    # Указываем поле, которое связывает материал с разделом
-    fk_name = 'section'
+    extra = 0
+    fields = ('title', 'order', 'xp_reward')
+    show_change_link = True # Allows jumping to the full Material edit page to add blocks
 
-# Инлайн форма для тестов
-class TestInline(admin.TabularInline):
+class TestInline(admin.StackedInline):
     model = Test
-    extra = 1  # Показывать одну пустую строку для добавления нового теста
-    fields = ['question', 'correct_answer', 'answer_choices']  # Поля для редактирования
-    # Указываем поле, которое связывает тест с разделом
-    fk_name = 'section'
+    extra = 0
 
-# Админка для модели Course
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'course', 'order')
+    list_filter = ('course',)
+    inlines = [MaterialInline, TestInline]
+    search_fields = ('title', 'course__title')
+
+class SectionInline(admin.TabularInline):
+    model = Section
+    extra = 0
+    fields = ('title', 'order')
+    show_change_link = True
+
+@admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_at')
-    search_fields = ['title', 'author__username']  # Поиск по названию и имени автора
-    inlines = [SectionInline]  # Добавляем инлайн-формы для редактирования связанных разделов
+    search_fields = ('title', 'author__username')
+    inlines = [SectionInline]
 
-# Регистрируем модель в админке
-admin.site.register(Course, CourseAdmin)
-
-# Регистрируем модели для админки
-admin.site.register(Section)
-admin.site.register(Material)
-admin.site.register(Test)
+# --- Other Models ---
+admin.site.register(ShopItem)
+admin.site.register(Achievement)
+admin.site.register(Clan)
+admin.site.register(ContentBlock) # Registered separately if needed

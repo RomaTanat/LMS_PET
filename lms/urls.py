@@ -7,6 +7,7 @@ urlpatterns = [
     path("courses/<int:pk>/", views.CourseDetailView.as_view(), name="course_detail"),
     path("submit-solution/<int:problem_id>/", views.submit_solution, name="submit_solution"),
     path("profile/", views.UserProfileView.as_view(), name="user_profile"),
+    path("profile/edit/", views.EditProfileView.as_view(), name="edit_profile"),
     path("notification/<int:notification_id>/read/", views.mark_as_read, name="mark_as_read"),
     path("task/<int:task_id>/update/", views.update_task_status, name="update_task_status"),
     path("task/<int:task_id>/comment/", views.add_task_comment, name="add_task_comment"),
