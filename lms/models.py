@@ -174,18 +174,49 @@ class TaskComment(models.Model):
     def __str__(self):
         return f"Comment by {self.author.username} on {self.task.title}"
 
+# Кланы
+class Clan(models.Model):
+    name = models.CharField(max_length=255, unique=True, verbose_name="Название клана")
+    description = models.TextField(blank=True, verbose_name="Описание")
+    leader = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="led_clans", verbose_name="Лидер")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+# Товары в магазине
+class ShopItem(models.Model):
+    ITEM_TYPES = [
+        ('THEME', 'Тема редактора'),
+        ('FRAME', 'Рамка аватара'),
+        ('UTILITY', 'Утилита'),
+    ]
+    name = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(verbose_name="Описание")
+    cost = models.IntegerField(default=100, verbose_name="Цена (монет)")
+    item_type = models.CharField(max_length=20, choices=ITEM_TYPES, verbose_name="Тип")
+    metadata = models.JSONField(default=dict, verbose_name="Метаданные (css_class/theme_name)", blank=True)
+    icon = models.CharField(max_length=50, default='🛍️', verbose_name="Иконка")
+
+    def __str__(self):
+        return f"{self.name} ({self.cost})"
+
 # Профиль студента с геймификацией
 class StudentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
+    clan = models.ForeignKey(Clan, on_delete=models.SET_NULL, null=True, blank=True, related_name="members", verbose_name="Клан")
     level = models.IntegerField(default=1, verbose_name="Уровень")
     current_xp = models.IntegerField(default=0, verbose_name="Опыт на уровне")
     total_xp = models.IntegerField(default=0, verbose_name="Всего опыта")
+    weekly_xp = models.IntegerField(default=0, verbose_name="Опыт за неделю")
+    coins = models.IntegerField(default=0, verbose_name="Монеты")
     streak_days = models.IntegerField(default=0, verbose_name="Дней подряд")
     last_activity_date = models.DateField(null=True, blank=True, verbose_name="Дата последней активности")
 
     def add_xp(self, amount):
         self.current_xp += amount
         self.total_xp += amount
+        self.weekly_xp += amount
         
         # Геометрическая прогрессия: опыт для следующего уровня = 100 * (1.5 ** (level - 1))
         xp_needed = int(100 * (1.5 ** (self.level - 1)))
@@ -251,6 +282,9 @@ class Achievement(models.Model):
         ('login_streak', 'Серия входов'),
         ('material_views', 'Просмотр материалов'),
         ('course_completion', 'Завершение курса'),
+        ('night_owl', 'Ночная сова (решение после 2:00)'),
+        ('sniper', 'Снайпер (с первой попытки)'),
+        ('marathon', 'Марафонец (30 дней подряд)'),
     ]
     
     name = models.CharField(max_length=255, verbose_name="Название достижения")
@@ -285,3 +319,15 @@ class UserAchievement(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.achievement.name}"
 
+# Инвентарь пользователя
+class UserInventory(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name="inventory")
+    item = models.ForeignKey(ShopItem, on_delete=models.CASCADE)
+    purchased_at = models.DateTimeField(auto_now_add=True)
+    is_equipped = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ['student', 'item']
+
+    def __str__(self):
+        return f"{self.student.user.username} owns {self.item.name}"

@@ -75,6 +75,7 @@ class CourseDetailView(DetailView):
         return context
 
 from .services import analyze_code_submission
+from .gamification import process_submission_rewards, purchase_item
 
 def submit_solution(request, problem_id):
     problem = get_object_or_404(CodingProblem, id=problem_id)
@@ -89,17 +90,86 @@ def submit_solution(request, problem_id):
             # Запускаем фоновый анализ
             analyze_code_submission(submission)
             
-            # Начисление XP за принятое решение
+            # Начисление наград (XP, Coins, Achievements)
             if submission.status == 'ACCEPTED':
                 if hasattr(request.user, 'student_profile'):
-                    profile = request.user.student_profile
-                    profile.add_xp(50) # Базово 50 XP за задачу
-                    profile.update_streak()
+                    request.user.student_profile.update_streak()
+                    process_submission_rewards(submission)
                 
             submission.save()
     return redirect('course_detail', pk=problem.material.section.course.id)
 
-from .models import Course, Section, Material, CodingProblem, Submission, PersonalTask, TaskComment, Notification, User
+from .models import Course, Section, Material, CodingProblem, Submission, PersonalTask, TaskComment, Notification, User, ShopItem, StudentProfile, Clan
+from django.contrib import messages
+from django.db import transaction
+
+# --- Магазин ---
+class ShopView(LoginRequiredMixin, ListView):
+    model = ShopItem
+    template_name = "gamification/shop.html"
+    context_object_name = "items"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Получаем список купленных ID, чтобы отключить кнопку "Купить"
+        purchased_ids = self.request.user.student_profile.inventory.values_list('item_id', flat=True)
+        context['purchased_ids'] = purchased_ids
+        return context
+
+@transaction.atomic
+def buy_item_view(request, item_id):
+    if request.method == 'POST':
+        success, message = purchase_item(request.user, item_id)
+        if success:
+            messages.success(request, message)
+        else:
+            messages.error(request, message)
+    return redirect('shop')
+
+# --- Лидерборд ---
+class LeaderboardView(LoginRequiredMixin, ListView):
+    model = StudentProfile
+    template_name = "gamification/leaderboard.html"
+    context_object_name = "profiles"
+    paginate_by = 20
+
+    def get_queryset(self):
+        return StudentProfile.objects.select_related('user').order_by('-weekly_xp')
+
+# --- Кланы ---
+class ClanListView(LoginRequiredMixin, ListView):
+    model = Clan
+    template_name = "gamification/clan_list.html"
+    context_object_name = "clans"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['my_clan'] = self.request.user.student_profile.clan
+        return context
+
+def create_clan(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        if name:
+            if Clan.objects.filter(name=name).exists():
+                messages.error(request, "Клан с таким именем уже существует.")
+            else:
+                clan = Clan.objects.create(name=name, description=description, leader=request.user)
+                profile = request.user.student_profile
+                profile.clan = clan
+                profile.save()
+                messages.success(request, f"Клан {name} создан!")
+                return redirect('clan_list')
+    return redirect('clan_list')
+
+def join_clan(request, clan_id):
+    clan = get_object_or_404(Clan, id=clan_id)
+    profile = request.user.student_profile
+    profile.clan = clan
+    profile.save()
+    messages.success(request, f"Вы вступили в клан {clan.name}!")
+    return redirect('clan_list')
 
 def mark_as_read(request, notification_id):
     notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
