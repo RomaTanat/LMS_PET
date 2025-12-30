@@ -35,33 +35,59 @@
             <ul class="nav-links">
                 <li><a href="/courses" class="nav-link">📚 Курсы</a></li>
                 {% if user.is_authenticated %}
-                <li class="nav-item dropdown" style="position: relative;">
-                    <a href="#" class="nav-link dropdown-toggle" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="position: relative;">
+                <li class="nav-item dropdown relative" id="notification-container">
+                    <button class="nav-link dropdown-toggle relative focus:outline-none" id="notificationDropdown">
                         🔔
                         {% if unread_count > 0 %}
                         <span class="notification-badge pulse">
                             {{ unread_count }}
                         </span>
                         {% endif %}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end glass-panel" aria-labelledby="notificationDropdown" style="width: 300px; padding: 0.5rem; position: absolute; top: 100%; right: 0; display: none; z-index: 1000; margin-top: 10px;">
-                        <h6 style="padding: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 0.5rem; font-weight: bold;">Уведомления</h6>
-                        <div id="notifications-list">
+                    </button>
+                    <!-- Notification Menu: Initially Hidden -->
+                    <div id="notificationMenu" class="dropdown-menu glass-panel hidden absolute top-full right-0 w-[300px] p-2 mt-2 z-50">
+                        <h6 class="p-2 border-b border-white/10 mb-2 font-bold">Уведомления</h6>
+                        <div id="notifications-list" class="max-h-[300px] overflow-y-auto">
                             {% for notification in user.notifications.all|slice:":5" %}
-                            <a href="{% url 'mark_as_read' notification.id %}" class="dropdown-item" style="padding: 0.75rem; border-radius: 8px; margin-bottom: 5px; transition: background 0.3s; display: block; text-decoration: none; color: white;">
-                                <div style="font-weight: 600; font-size: 0.9rem; {% if not notification.is_read %}color: var(--secondary);{% endif %}">{{ notification.title }}</div>
-                                <div style="font-size: 0.8rem; color: var(--text-muted);">{{ notification.message|truncatechars:50 }}</div>
-                                <div style="font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-top: 3px;">{{ notification.created_at|timesince }} назад</div>
+                            <a href="{% url 'mark_as_read' notification.id %}" class="block p-3 rounded mb-1 hover:bg-white/5 transition-colors duration-300">
+                                <div class="font-semibold text-sm {% if not notification.is_read %}text-[var(--secondary)]{% endif %}">{{ notification.title }}</div>
+                                <div class="text-xs text-[var(--text-muted)] mt-1">{{ notification.message|truncatechars:50 }}</div>
+                                <div class="text-[10px] text-white/30 mt-1">{{ notification.created_at|timesince }} назад</div>
                             </a>
                             {% empty %}
-                            <div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">Нет новых уведомлений</div>
+                            <div class="p-4 text-center text-[var(--text-muted)] text-sm">Нет новых уведомлений</div>
                             {% endfor %}
                         </div>
-                        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem; margin-top: 0.5rem; text-align: center;">
-                            <a href="{% url 'user_profile' %}" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">Все уведомления</a>
+                        <div class="border-t border-white/10 pt-2 mt-2 text-center">
+                            <a href="{% url 'user_profile' %}" class="text-sm text-[var(--primary)] hover:underline">Все уведомления</a>
                         </div>
                     </div>
                 </li>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const container = document.getElementById('notification-container');
+                        const btn = document.getElementById('notificationDropdown');
+                        const menu = document.getElementById('notificationMenu');
+
+                        btn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            menu.classList.toggle('hidden');
+                        });
+
+                        // Close when clicking outside
+                        document.addEventListener('click', function(e) {
+                            if (!container.contains(e.target)) {
+                                menu.classList.add('hidden');
+                            }
+                        });
+
+                        // Prevent closing when clicking inside the menu
+                        menu.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    });
+                </script>
                 <li><a href="{% url 'room' room_name='ai_session' %}" class="nav-link">🤖 AI Чат</a></li>
                 {% endif %}
                 {# Конец исправленного блока #}
