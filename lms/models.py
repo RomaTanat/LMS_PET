@@ -68,6 +68,7 @@ class Material(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name="materials", verbose_name="Раздел")
     title = models.CharField(max_length=255, verbose_name="Название материала")
     order = models.PositiveIntegerField(default=0, verbose_name="Порядок")
+    xp_reward = models.IntegerField(default=10, verbose_name="Награда XP")
 
     class Meta:
         ordering = ['order']
@@ -116,11 +117,18 @@ class Test(models.Model):
 
 # Задачи по программированию (LeetCode-style)
 class CodingProblem(models.Model):
+    DIFFICULTY_CHOICES = [
+        ('EASY', 'Легкая'),
+        ('MEDIUM', 'Средняя'),
+        ('HARD', 'Сложная'),
+    ]
     title = models.CharField(max_length=255, verbose_name="Название задачи")
     description = models.TextField(verbose_name="Описание задачи")
     input_data = models.TextField(verbose_name="Входные данные (тест)")
     expected_output = models.TextField(verbose_name="Ожидаемый результат")
     reference_solution = models.TextField(blank=True, null=True, verbose_name="Эталонное решение")
+    starter_code = models.TextField(blank=True, null=True, verbose_name="Начальный код")
+    difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default='EASY', verbose_name="Сложность")
     hints = models.TextField(blank=True, null=True, verbose_name="Подсказки")
     material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="coding_problems", verbose_name="Урок/Материал")
     is_required = models.BooleanField(default=True, verbose_name="Обязательная для прогресса")
