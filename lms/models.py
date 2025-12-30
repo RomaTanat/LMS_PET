@@ -114,6 +114,37 @@ class Test(models.Model):
         return self.question
 
 
+# Задачи по программированию (LeetCode-style)
+class CodingProblem(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Название задачи")
+    description = models.TextField(verbose_name="Описание задачи")
+    input_data = models.TextField(verbose_name="Входные данные (тест)")
+    expected_output = models.TextField(verbose_name="Ожидаемый результат")
+    hints = models.TextField(blank=True, null=True, verbose_name="Подсказки")
+    material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="coding_problems", verbose_name="Урок/Материал")
+    is_required = models.BooleanField(default=True, verbose_name="Обязательная для прогресса")
+
+    def __str__(self):
+        return self.title
+
+# Решения студентов
+class Submission(models.Model):
+    STATUS_CHOICES = [
+        ('PENDING', 'На проверке'),
+        ('ACCEPTED', 'Принято'),
+        ('REJECTED', 'На доработку'),
+        ('FAILED', 'Ошибка выполнения'),
+    ]
+    problem = models.ForeignKey(CodingProblem, on_delete=models.CASCADE, related_name="submissions")
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="submissions")
+    code = models.TextField(verbose_name="Код решения")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    feedback = models.TextField(blank=True, null=True, verbose_name="Отзыв преподавателя")
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Submission by {self.student.username} for {self.problem.title}"
+
 # Модель достижений (Achievements)
 class Achievement(models.Model):
     """Achievement/Badge that users can earn"""
