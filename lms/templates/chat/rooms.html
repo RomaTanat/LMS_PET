@@ -4,31 +4,22 @@
 {% block title %}Чаты{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-extrabold text-gray-900 mb-6 border-b-4 border-indigo-600 pb-2">
+<div class="glass-panel" style="max-width: 800px; margin: 0 auto;">
+    <h1 class="section-title" style="border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">
         Список контактов
     </h1>
 
-    <p class="text-md text-gray-600 mb-8">
-        Вы вошли как: <span class="font-semibold text-indigo-700">{{ current_user }}</span>. Выберите пользователя или AI-тьютора, чтобы начать новый диалог.
+    <p class="text-muted mb-4">
+        Вы вошли как: <span style="color: var(--primary); font-weight: 600;">{{ current_user }}</span>. Выберите пользователя или AI-тьютора, чтобы начать новый диалог.
     </p>
 
     <!-- Контейнер для списка пользователей -->
-    <div class="space-y-4">
+    <div class="user-list" style="display: flex; flex-direction: column; gap: 1rem;">
         {% for user in all_users %}
-            <div class="p-4 rounded-xl shadow-lg bg-white flex items-center justify-between transition duration-200 hover:shadow-2xl hover:bg-gray-50
-                        {% if user.username == 'AI_Tutor' %}
-                            bg-teal-50 border-2 border-teal-300 transform scale-[1.01] hover:bg-teal-100
-                        {% endif %}">
-
-                <div class="flex items-center space-x-4">
-                    <!-- Аватар (Иконка или первая буква имени) -->
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold
-                                {% if user.username == 'AI_Tutor' %}
-                                    bg-teal-500 text-white
-                                {% else %}
-                                    bg-indigo-100 text-indigo-700
-                                {% endif %}">
+            <div class="user-card" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); transition: background 0.3s ease;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <!-- Avatar -->
+                    <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; color: white;">
                         {% if user.username == 'AI_Tutor' %}
                             🧠
                         {% else %}
@@ -37,39 +28,33 @@
                     </div>
 
                     <div>
-                        <p class="text-lg font-semibold text-gray-800">
+                        <div style="font-weight: 600; font-size: 1.1rem; color: var(--text-main);">
                             {% if user.username == 'AI_Tutor' %}
-                                <span class="text-teal-700">AI-Тьютор</span>
+                                <span style="color: var(--success);">AI-Тьютор</span>
                             {% else %}
                                 {{ user.username }}
                             {% endif %}
-                        </p>
-                        <p class="text-sm text-gray-500">
+                        </div>
+                        <div class="text-muted" style="font-size: 0.9rem;">
                             {% if user.username == 'AI_Tutor' %}
                                 Ваш личный помощник по обучению.
                             {% else %}
                                 Пользователь LMS.
                             {% endif %}
-                        </p>
+                        </div>
                     </div>
                 </div>
 
-                <a href="{% url 'chat:start_private_chat' target_username=user.username %}"
-                   class="px-5 py-2 text-white font-semibold rounded-full shadow-md transition duration-150 transform hover:scale-105
-                          {% if user.username == 'AI_Tutor' %}
-                            bg-teal-600 hover:bg-teal-700
-                          {% else %}
-                            bg-indigo-600 hover:bg-indigo-700
-                          {% endif %}">
+                <a href="{% url 'chat:start_private_chat' target_username=user.username %}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
                     Открыть чат
                 </a>
             </div>
         {% endfor %}
 
         {% if not all_users %}
-            <div class="p-6 text-center text-gray-500 bg-white rounded-xl shadow-lg mt-8">
-                <p class="text-lg font-medium">Нет доступных контактов.</p>
-                <p class="text-sm mt-2">Пожалуйста, убедитесь, что в базе данных есть другие пользователи, и создан специальный аккаунт "AI_Tutor".</p>
+            <div style="padding: 2rem; text-align: center; color: var(--text-muted); background: rgba(255,255,255,0.02); border-radius: var(--radius-sm);">
+                <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Нет доступных контактов.</p>
+                <p style="font-size: 0.9rem;">Пожалуйста, убедитесь, что в базе данных есть другие пользователи.</p>
             </div>
         {% endif %}
     </div>
