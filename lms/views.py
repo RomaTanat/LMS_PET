@@ -69,6 +69,9 @@ class CourseDetailView(DetailView):
                     if not all_accepted: break
                 if not all_accepted:
                     # Помечаем заблокированные разделы после первого непройденного
+                    # Logic is handled by `section.locked = not all_accepted` at the start of the loop
+                    # and updating `all_accepted` inside the loop.
+                    # Once all_accepted becomes False, subsequent sections will have locked = True.
                     pass
 
         context['sections'] = sections
