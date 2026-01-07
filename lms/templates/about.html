@@ -1,26 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mx-auto text-center py-16">
-    <h1 class="text-4xl font-bold text-gray-800">О нас</h1>
-    <p class="mt-4 text-gray-600 text-lg max-w-3xl mx-auto">
-        Добро пожаловать в LMS — вашу платформу для онлайн-обучения.
-        Мы предоставляем качественные курсы, которые помогут вам развиваться и осваивать новые навыки.
-        Наша цель — сделать обучение доступным, удобным и эффективным.
-    </p>
+<div class="container" style="padding: 4rem 1.5rem; max-width: 1200px; margin: 0 auto;">
+    <div class="page-header">
+        <h1 class="page-title">О нас</h1>
+        <p class="text-muted page-description">
+            Добро пожаловать в LMS — вашу платформу для современного онлайн-обучения.
+            Мы объединяем технологии и образование, чтобы сделать процесс получения знаний эффективным и увлекательным.
+        </p>
+    </div>
 
-    <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h3 class="text-2xl font-semibold text-gray-800">Качественные курсы</h3>
-            <p class="text-gray-600 mt-2">Наши курсы разработаны экспертами в своих областях.</p>
+    <div class="grid-cards">
+        <div class="glass-panel flex-col h-full">
+            <div class="rounded-icon-box bg-primary-soft">🎓</div>
+            <h3 class="mb-6" style="font-size: 1.5rem; font-weight: 600; color: var(--text-main);">Качественные курсы</h3>
+            <p class="text-muted" style="line-height: 1.6;">Наши образовательные программы разработаны ведущими экспертами отрасли. Мы постоянно обновляем материалы, чтобы они соответствовали актуальным требованиям рынка.</p>
         </div>
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h3 class="text-2xl font-semibold text-gray-800">Гибкое обучение</h3>
-            <p class="text-gray-600 mt-2">Учитесь в удобное для вас время и в удобном формате.</p>
+
+        <div class="glass-panel flex-col h-full">
+            <div class="rounded-icon-box bg-secondary-soft">⏱️</div>
+            <h3 class="mb-6" style="font-size: 1.5rem; font-weight: 600; color: var(--text-main);">Гибкое обучение</h3>
+            <p class="text-muted" style="line-height: 1.6;">Учитесь в собственном темпе, в любое время и с любого устройства. Наша платформа адаптируется под ваш график, позволяя совмещать учебу с работой.</p>
         </div>
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h3 class="text-2xl font-semibold text-gray-800">Сообщество</h3>
-            <p class="text-gray-600 mt-2">Общайтесь с другими студентами и развивайтесь вместе.</p>
+
+        <div class="glass-panel flex-col h-full">
+            <div class="rounded-icon-box bg-accent-soft">🤝</div>
+            <h3 class="mb-6" style="font-size: 1.5rem; font-weight: 600; color: var(--text-main);">Сообщество</h3>
+            <p class="text-muted" style="line-height: 1.6;">Станьте частью активного сообщества студентов и менторов. Обменивайтесь опытом, задавайте вопросы и находите единомышленников для совместных проектов.</p>
+        </div>
+    </div>
+
+    <div style="margin-top: 5rem; text-align: center;">
+        <div class="glass-panel" style="padding: 3rem; background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));">
+            <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem;">Готовы начать?</h2>
+            <p class="text-muted" style="margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Присоединяйтесь к тысячам студентов, которые уже меняют свою жизнь к лучшему.
+            </p>
+            <a href="{% url 'register' %}" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;">Создать аккаунт</a>
         </div>
     </div>
 </div>
