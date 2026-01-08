@@ -190,8 +190,11 @@
         <div class="glass-panel">
             <div class="avatar-wrapper">
                 <div class="avatar-ring"></div>
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="avatar-img"
-                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ user.username }}&background=random&color=fff&size=256';">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="Avatar" class="avatar-img">
+                {% else %}
+                    <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=random&color=fff&size=256" alt="Avatar" class="avatar-img">
+                {% endif %}
             </div>
 
             <h1 class="user-name">{{ user.username }}</h1>
@@ -199,20 +202,25 @@
                 <span>📧</span> {{ user.email }}
             </div>
 
-            <div class="stats-row">
+            <!-- Gamification Stats -->
+            <div class="stats-row" style="margin-bottom: 1rem;">
+                 <div class="mini-stat">
+                    <span class="mini-stat-val" style="color: var(--warning);">{{ user.student_profile.level }}</span>
+                    <span class="mini-stat-label">Уровень</span>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-stat-val" style="color: var(--accent);">{{ user.student_profile.current_xp }}</span>
+                    <span class="mini-stat-label">XP</span>
+                </div>
+            </div>
+             <div class="stats-row">
+                 <div class="mini-stat">
+                    <span class="mini-stat-val">🔥 {{ user.student_profile.streak_days }}</span>
+                    <span class="mini-stat-label">Серия дней</span>
+                </div>
                 <div class="mini-stat">
                     <span class="mini-stat-val">{{ user.enrolled_courses.count }}</span>
                     <span class="mini-stat-label">Курсов</span>
-                </div>
-                <div class="mini-stat">
-                    <span class="mini-stat-val">
-                        {% if user.achievements.exists %}
-                        {{ user.achievements.count }}
-                        {% else %}
-                        0
-                        {% endif %}
-                    </span>
-                    <span class="mini-stat-label">Наград</span>
                 </div>
             </div>
 
@@ -228,11 +236,11 @@
     <!-- Main Content -->
     <main class="main-content" style="display: flex; flex-direction: column; gap: 2rem;">
 
-        <!-- Priorities Section -->
-        {% if user.profile.priorities %}
+        <!-- Bio Section -->
+        {% if user.bio %}
         <div class="glass-panel">
-            <h2 class="section-title"><span>🎯</span> Мои приоритеты</h2>
-            <div style="font-size: 1.1rem; line-height: 1.7; white-space: pre-wrap;">{{ user.profile.priorities }}</div>
+            <h2 class="section-title"><span>📝</span> Обо мне</h2>
+            <div style="font-size: 1.1rem; line-height: 1.7; white-space: pre-wrap;">{{ user.bio }}</div>
         </div>
         {% endif %}
 
@@ -279,6 +287,15 @@
 
             {% if user.achievements.exists %}
             <div class="achievements-grid">
+                {% for user_ach in user.achievements.all %}
+                <div class="achievement-item unlocked">
+                    <div class="ach-icon-wrapper">
+                        {{ user_ach.achievement.icon }}
+                    </div>
+                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">{{ user_ach.achievement.name }}</h4>
+                    <p class="text-muted" style="font-size: 0.85rem;">{{ user_ach.achievement.description }}</p>
+                </div>
+                {% endfor %}
             </div>
             {% else %}
             <div class="text-center text-muted" style="padding: 2rem;">
@@ -319,7 +336,7 @@
             <div class="text-center text-muted" style="padding: 2rem;">
                 <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;">📝</div>
                 <p>Вы еще не записались ни на один курс.</p>
-                <a href="/" class="btn btn-primary mt-4">Каталог курсов →</a>
+                <a href="/courses" class="btn btn-primary mt-4">Каталог курсов →</a>
             </div>
             {% endif %}
         </div>
