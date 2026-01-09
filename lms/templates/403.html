@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}403 - Доступ запрещен{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 70vh;">
+    <div class="glass-panel" style="text-align: center; max-width: 600px; padding: 3rem;">
+        <h1 style="font-size: 6rem; font-weight: 800; background: linear-gradient(to right, #fcd34d, #f59e0b); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin: 0;">403</h1>
+        <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: white;">Доступ запрещен</h2>
+        <p class="text-muted" style="margin-bottom: 2rem; font-size: 1.1rem;">
+            У вас нет прав для просмотра этой страницы.
+        </p>
+        <a href="{% url 'home' %}" class="btn btn-primary">
+            Вернуться на главную
+        </a>
+    </div>
+</div>
+{% endblock %}
