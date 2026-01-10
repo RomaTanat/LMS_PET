@@ -1,52 +1,118 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Курсы - LMS Platform{% endblock %}
 
 {% block content %}
-<div class="container" style="padding: 2rem;">
-    <h1 class="section-title text-center">Список курсов</h1>
+<div class="glass-panel" style="margin-top: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 class="section-title">
+            <i class="fas fa-graduation-cap" style="color: var(--accent);"></i>
+            Доступные курсы
+        </h2>
 
-    <!-- Форма поиска -->
-    <form method="GET" action="{% url 'course_list' %}"
-        style="display: flex; justify-content: center; margin-bottom: 2rem; gap: 0.5rem;">
-        <input type="text" name="q" placeholder="Поиск курсов..." value="{{ request.GET.q }}"
-            style="padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; width: 100%; max-width: 400px; outline: none;">
-        <button type="submit" class="btn btn-primary">
-            🔍 Искать
-        </button>
-    </form>
+        <!-- Search Form -->
+        <form method="get" action="{% url 'course_list' %}" style="display: flex; gap: 0.5rem; flex: 0 0 300px;">
+            <input type="text" name="q" placeholder="Поиск курсов..." class="search-input" value="{{ request.GET.q|default:'' }}">
+            <button type="submit" class="btn btn-primary" style="padding: 0.75rem;">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
 
-    {% if courses %}
-    <div class="achievements-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+        <div style="display: flex; gap: 0.5rem;">
+            <button onclick="setView('grid')" class="btn btn-outline" id="grid-btn">
+                <i class="fas fa-th-large"></i>
+            </button>
+            <button onclick="setView('list')" class="btn btn-outline" id="list-btn">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="courses-container" class="grid-view">
         {% for course in courses %}
-        <div class="glass-panel"
-            style="padding: 0; overflow: hidden; display: flex; flex-direction: column; height: 100%;">
-            <div style="height: 180px; overflow: hidden; position: relative;">
-                <img src="{{ course.image.url }}" alt="Курс" style="width: 100%; height: 100%; object-fit: cover;"
-                    onerror="this.onerror=null; this.src='https://source.unsplash.com/400x250/?education,learning';">
-                <div
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));">
+        <div class="course-card glass-panel" style="padding: 1.5rem; transition: transform 0.2s;">
+            <div style="height: 160px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: var(--radius-md); margin-bottom: 1.5rem; position: relative; overflow: hidden;">
+                {% if course.image %}
+                <img src="{{ course.image.url }}" alt="{{ course.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 3rem; color: rgba(255,255,255,0.2);">
+                    <i class="fas fa-book-open"></i>
                 </div>
+                {% endif %}
             </div>
 
-            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">{{ course.title }}
-                </h2>
-                <p class="text-muted" style="margin-bottom: 1.5rem; flex: 1; line-height: 1.6;">{{
-                    course.description|truncatechars:100 }}</p>
+            <h3 style="margin-bottom: 0.5rem;">{{ course.title }}</h3>
+            <p class="text-muted" style="margin-bottom: 1.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                {{ course.description }}
+            </p>
 
-                <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary w-full"
-                    style="text-align: center;">
-                    Подробнее →
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="text-muted" style="font-size: 0.9rem;">
+                    <i class="fas fa-user-circle"></i> {{ course.author.username }}
+                </span>
+                <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                    Подробнее
                 </a>
             </div>
         </div>
+        {% empty %}
+        <div class="glass-panel" style="grid-column: 1/-1; text-align: center; padding: 4rem;">
+            <i class="fas fa-search" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+            <h3>Курсы не найдены</h3>
+            <p class="text-muted">Попробуйте изменить параметры поиска</p>
+        </div>
         {% endfor %}
     </div>
-    {% else %}
-    <div class="glass-panel text-center" style="padding: 3rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;">🔍</div>
-        <p class="text-muted">Курсы не найдены.</p>
-        <a href="{% url 'course_list' %}" class="btn btn-outline mt-4">Сбросить поиск</a>
-    </div>
-    {% endif %}
 </div>
+
+<style>
+    .grid-view {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .list-view {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .list-view .course-card {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .list-view .course-card > div:first-child {
+        width: 200px;
+        height: 120px;
+        margin-bottom: 0 !important;
+        flex-shrink: 0;
+    }
+</style>
+
+<script>
+    function setView(view) {
+        const container = document.getElementById('courses-container');
+        const gridBtn = document.getElementById('grid-btn');
+        const listBtn = document.getElementById('list-btn');
+
+        if (view === 'grid') {
+            container.className = 'grid-view';
+            gridBtn.classList.add('active'); // You might need CSS for 'active' state on btn-outline if not present
+            gridBtn.style.background = 'rgba(255,255,255,0.1)';
+            listBtn.style.background = 'transparent';
+        } else {
+            container.className = 'list-view';
+            listBtn.style.background = 'rgba(255,255,255,0.1)';
+            gridBtn.style.background = 'transparent';
+        }
+        localStorage.setItem('courseView', view);
+    }
+
+    // Load preference
+    const savedView = localStorage.getItem('courseView') || 'grid';
+    setView(savedView);
+</script>
 {% endblock %}

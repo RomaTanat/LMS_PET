@@ -1,127 +1,134 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }} - LMS Platform{% endblock %}
 
 {% block content %}
-<div class="container" style="padding: 2rem; max-width: 1000px;">
-    <div class="glass-panel mb-8">
-        <h1 class="section-title text-center" style="margin-bottom: 1rem;">{{ course.title }}</h1>
-        <p class="text-muted text-center" style="font-size: 1.1rem; line-height: 1.6;">{{ course.description }}</p>
+<div style="margin-top: 2rem;">
+    <!-- Course Header -->
+    <div class="glass-panel" style="margin-bottom: 2rem; padding: 3rem;">
+        <span class="text-muted" style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Курс</span>
+        <h1 style="font-size: 2.5rem; margin: 0.5rem 0 1rem; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            {{ course.title }}
+        </h1>
+        <p class="text-muted" style="font-size: 1.1rem; max-width: 800px;">
+            {{ course.description }}
+        </p>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-        {% for section in sections %}
-        <div class="glass-panel {% if section.locked %}locked-section{% endif %}" style="{% if section.locked %}opacity: 0.6; pointer-events: none; position: relative;{% endif %}">
-            {% if section.locked %}
-            <div style="position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem;">🔒</div>
-            {% endif %}
-            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--primary);">{{
-                section.title }}</h3>
-            <p class="text-muted" style="margin-bottom: 1.5rem;">{{ section.description }}</p>
+    <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem;">
+        <!-- Sidebar Navigation -->
+        <div class="glass-panel" style="padding: 1.5rem; height: fit-content; position: sticky; top: 100px;">
+            <h3 class="section-title" style="font-size: 1.2rem;">Содержание</h3>
 
-            <!-- Материалы -->
-            <h4
-                style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <span>📚</span> Материалы
-            </h4>
-            {% for material in section.materials_list %}
-            <div
-                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                <h5 style="font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem; color: var(--secondary);">{{ material.title }}</h5>
-                
-                <div class="content-blocks">
-                    {% for block in material.blocks.all %}
-                        <div class="content-block mb-4">
-                            {% if block.block_type == 'TEXT' %}
-                                <div class="text-content" style="line-height: 1.6;">{{ block.content|linebreaks }}</div>
-                            {% elif block.block_type == 'VIDEO' %}
-                                <div class="video-container" style="margin: 1rem 0;">
-                                    <iframe width="100%" height="400" src="{{ block.video_url }}" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>
-                                </div>
-                            {% elif block.block_type == 'CODE_SNIPPET' %}
-                                <div class="code-snippet" style="background: #1e1e1e; padding: 1rem; border-radius: 8px; font-family: 'Courier New', Courier, monospace; overflow-x: auto;">
-                                    <pre style="margin: 0; color: #d4d4d4;"><code>{{ block.content }}</code></pre>
-                                </div>
-                            {% elif block.block_type == 'FILE' %}
-                                <div class="file-download" style="margin-top: 0.5rem;">
-                                    <a href="{{ block.file.url }}" download class="btn btn-outline" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                                        📥 Скачать: {{ block.file.name|split:"/"|last }}
-                                    </a>
-                                </div>
-                            {% endif %}
-                        </div>
+            {% for section in sections %}
+            <div style="margin-bottom: 1.5rem;">
+                <div style="font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase;">
+                    {{ section.title }}
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    {% for material in section.materials.all %}
+                    <a href="#" onclick="showMaterial(event, 'material-{{ material.id }}')" class="nav-link material-link" data-target="material-{{ material.id }}" style="padding: 0.5rem; border-radius: var(--radius-sm); font-size: 0.95rem;">
+                        <i class="fas fa-file-alt" style="width: 20px;"></i>
+                        {{ material.title }}
+                    </a>
+                    {% endfor %}
+                    {% for test in section.tests.all %}
+                     <a href="#" class="nav-link" style="padding: 0.5rem; border-radius: var(--radius-sm); font-size: 0.95rem; color: var(--warning);">
+                        <i class="fas fa-question-circle" style="width: 20px;"></i>
+                        {{ test.question|truncatechars:20 }}
+                    </a>
                     {% endfor %}
                 </div>
             </div>
             {% empty %}
-            <p class="text-muted" style="font-style: italic; opacity: 0.7;">Нет материалов.</p>
-            {% endfor %}
-
-            <!-- Задачи по программированию -->
-            {% if material.problems %}
-            <h4 style="font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <span>💻</span> Практика кода
-            </h4>
-            {% for problem in material.problems %}
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                <h6 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary);">{{ problem.title }}</h6>
-                <div class="description mb-4">{{ problem.description|linebreaks }}</div>
-                
-                {% if problem.hints %}
-                <details class="mb-4">
-                    <summary style="cursor: pointer; color: var(--secondary);">💡 Подсказка</summary>
-                    <div style="padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 8px; margin-top: 0.5rem;">
-                        {{ problem.hints }}
-                    </div>
-                </details>
-                {% endif %}
-
-                {% if problem.user_submission %}
-                    <div class="status-panel p-4 rounded-lg mb-4 {% if problem.user_submission.status == 'ACCEPTED' %}bg-green-900/20 text-green-400{% else %}bg-red-900/20 text-red-400{% endif %}">
-                        <strong>Статус:</strong> {{ problem.user_submission.get_status_display }}
-                        {% if problem.user_submission.feedback %}
-                            <div class="mt-2 text-sm">{{ problem.user_submission.feedback|linebreaks }}</div>
-                        {% endif %}
-                    </div>
-                {% endif %}
-
-                {% if user.is_authenticated %}
-                <form action="{% url 'submit_solution' problem.id %}" method="post">
-                    {% csrf_token %}
-                    <textarea name="code" class="form-control" rows="10" 
-                        style="background: #1e1e1e; color: #d4d4d4; font-family: monospace; border: 1px solid #333; width: 100%; border-radius: 8px; padding: 1rem;"
-                        placeholder="Напишите ваш Python код здесь..."></textarea>
-                    <button type="submit" class="btn btn-primary mt-4">🚀 Отправить решение</button>
-                </form>
-                {% else %}
-                <p class="text-muted">Войдите, чтобы отправить решение.</p>
-                {% endif %}
-            </div>
-            {% endfor %}
-            {% endif %}
-
-            <!-- Тесты -->
-            <h4
-                style="font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <span>📝</span> Тесты
-            </h4>
-            {% for test in section.tests_list %}
-            <div
-                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
-                <p style="font-weight: 600; margin-bottom: 0.5rem;">{{ test.question }}</p>
-                <ul style="list-style: none; padding: 0;">
-                    {% for choice in test.answer_choices %}
-                    <li
-                        style="padding: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted);">
-                        • {{ choice }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% empty %}
-            <p class="text-muted" style="font-style: italic; opacity: 0.7;">Нет тестов.</p>
+            <p class="text-muted">Разделы еще не добавлены</p>
             {% endfor %}
         </div>
-        {% endfor %}
+
+        <!-- Main Content Area -->
+        <div class="glass-panel" style="padding: 3rem; min-height: 500px;">
+            <div id="default-message" style="text-align: center; padding-top: 4rem;">
+                <i class="fas fa-chalkboard-teacher" style="font-size: 4rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+                <h2>Начните обучение</h2>
+                <p class="text-muted">Выберите урок из меню слева, чтобы приступить к изучению материалов курса.</p>
+            </div>
+
+            {% for section in sections %}
+                {% for material in section.materials.all %}
+                <div id="material-{{ material.id }}" class="material-content" style="display: none;">
+                    <h2 style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        {{ material.title }}
+                    </h2>
+
+                    <div class="content-area">
+                        {% for block in material.blocks.all %}
+                        <div class="content-block">
+                            {% if block.block_type == 'TEXT' %}
+                                {{ block.content|linebreaks }}
+                            {% elif block.block_type == 'VIDEO' %}
+                                <div class="video-container">
+                                    <iframe src="{{ block.video_url }}" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            {% elif block.block_type == 'CODE_SNIPPET' %}
+                                <div class="code-block">
+                                    <pre><code>{{ block.content }}</code></pre>
+                                </div>
+                            {% elif block.block_type == 'FILE' %}
+                                <a href="{{ block.file.url }}" class="btn btn-outline" target="_blank">
+                                    <i class="fas fa-download"></i> Скачать файл
+                                </a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        {% if material.coding_problems.exists %}
+                        <h3 class="mt-4 mb-4">Задачи для практики</h3>
+                        <div class="grid-cards" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
+                            {% for problem in material.coding_problems.all %}
+                            <div class="glass-panel" style="padding: 1.5rem; background: rgba(255,255,255,0.05);">
+                                <h4>{{ problem.title }}</h4>
+                                <p class="text-muted" style="font-size: 0.9rem; margin: 1rem 0;">{{ problem.description|truncatechars:100 }}</p>
+                                <!-- Note: Link might need adjustment depending on where problem detail view is -->
+                                <button class="btn btn-sm btn-primary">Решить задачу</button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 </div>
+
+<script>
+function showMaterial(event, materialId) {
+    event.preventDefault();
+
+    // Hide default message
+    document.getElementById('default-message').style.display = 'none';
+
+    // Hide all materials
+    const materials = document.getElementsByClassName('material-content');
+    for (let i = 0; i < materials.length; i++) {
+        materials[i].style.display = 'none';
+    }
+
+    // Show selected material
+    const target = document.getElementById(materialId);
+    if (target) {
+        target.style.display = 'block';
+    }
+
+    // Update active link styling
+    const links = document.getElementsByClassName('material-link');
+    for (let i = 0; i < links.length; i++) {
+        links[i].style.background = 'transparent';
+        links[i].style.color = 'var(--text-muted)';
+    }
+    event.currentTarget.style.background = 'rgba(99, 102, 241, 0.2)'; // Primary color low opacity
+    event.currentTarget.style.color = 'var(--text-main)';
+}
+</script>
 {% endblock %}
