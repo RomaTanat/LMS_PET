@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}500 - Ошибка сервера{% endblock %}
+
+{% block content %}
+<div class="glass-panel text-center" style="max-width: 600px; margin: 4rem auto; padding: 4rem 2rem;">
+    <h1 style="font-size: 6rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--danger), var(--warning)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">500</h1>
+    <h2 class="mb-4">Внутренняя ошибка сервера</h2>
+    <p class="text-muted mb-4">Наши инженеры уже работают над устранением неполадок.</p>
+    <div style="margin-top: 2rem;">
+        <a href="/" class="btn btn-primary">Вернуться на главную</a>
+    </div>
+</div>
+{% endblock %}
