@@ -1,26 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mx-auto text-center py-16">
-    <h1 class="text-4xl font-bold text-gray-800">О нас</h1>
-    <p class="mt-4 text-gray-600 text-lg max-w-3xl mx-auto">
+<div class="container" style="padding: 4rem 2rem; text-align: center;">
+    <h1 class="section-title text-center" style="justify-content: center; font-size: 2.5rem; margin-bottom: 2rem;">О нас</h1>
+    <p class="text-muted" style="font-size: 1.1rem; max-width: 800px; margin: 0 auto 3rem; line-height: 1.6;">
         Добро пожаловать в LMS — вашу платформу для онлайн-обучения.
         Мы предоставляем качественные курсы, которые помогут вам развиваться и осваивать новые навыки.
         Наша цель — сделать обучение доступным, удобным и эффективным.
     </p>
 
-    <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h3 class="text-2xl font-semibold text-gray-800">Качественные курсы</h3>
-            <p class="text-gray-600 mt-2">Наши курсы разработаны экспертами в своих областях.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div class="glass-panel" style="text-align: left;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Качественные курсы</h3>
+            <p class="text-muted">Наши курсы разработаны экспертами в своих областях, чтобы обеспечить вам лучшие знания.</p>
         </div>
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h3 class="text-2xl font-semibold text-gray-800">Гибкое обучение</h3>
-            <p class="text-gray-600 mt-2">Учитесь в удобное для вас время и в удобном формате.</p>
+        <div class="glass-panel" style="text-align: left;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">⏱️</div>
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Гибкое обучение</h3>
+            <p class="text-muted">Учитесь в удобное для вас время и в удобном формате, совмещая учебу с работой.</p>
         </div>
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h3 class="text-2xl font-semibold text-gray-800">Сообщество</h3>
-            <p class="text-gray-600 mt-2">Общайтесь с другими студентами и развивайтесь вместе.</p>
+        <div class="glass-panel" style="text-align: left;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Сообщество</h3>
+            <p class="text-muted">Общайтесь с другими студентами, делитесь опытом и развивайтесь вместе в нашей сети.</p>
         </div>
     </div>
 </div>
