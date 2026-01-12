@@ -42,7 +42,8 @@ def logout_view(request):
 # Профиль (доступен только авторизованным)
 @login_required
 def profile_view(request):
-    return render(request, "accounts/profile.html", {"user": request.user})
+    # Перенаправляем на основной профиль в приложении LMS, где загружается полный контекст
+    return redirect("user_profile")
 
 
 @login_required
