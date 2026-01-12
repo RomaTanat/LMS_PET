@@ -99,7 +99,25 @@ def submit_solution(request, problem_id):
             submission.save()
     return redirect('course_detail', pk=problem.material.section.course.id)
 
-from .models import Course, Section, Material, CodingProblem, Submission, PersonalTask, TaskComment, Notification, User
+from .models import Course, Section, Material, Test, CodingProblem, Submission, PersonalTask, TaskComment, Notification, User, StudentProfile
+
+class LeaderboardView(LoginRequiredMixin, ListView):
+    model = StudentProfile
+    template_name = "leaderboard.html"
+    context_object_name = "leaderboard"
+
+    def get_queryset(self):
+        return StudentProfile.objects.select_related('user').order_by('-total_xp', '-level')[:50]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Find user's rank
+        user_profile = getattr(self.request.user, 'student_profile', None)
+        if user_profile:
+            # Simple count of people with more XP
+            rank = StudentProfile.objects.filter(total_xp__gt=user_profile.total_xp).count() + 1
+            context['user_rank'] = rank
+        return context
 
 def mark_as_read(request, notification_id):
     notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
