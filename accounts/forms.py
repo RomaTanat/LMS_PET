@@ -13,7 +13,7 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ["username", "email", "password1", "password2"]
+        fields = ["username", "email"]
 
 # Дополнительная форма для добавления bio и avatar
 class CustomUserCreationForm(forms.ModelForm):
