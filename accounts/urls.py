@@ -7,6 +7,10 @@ from .views import login_view, logout_view, register_view, profile_view, edit_pr
 def custom_logout(request):
     logout(request)  # Разлогиниваем пользователя
     return redirect("home")
+
+# In accounts/views.py, profile_view should now redirect to 'user_profile'
+# But for now, we keep the path here.
+
 urlpatterns = [
     path("login/", login_view, name="login"),
     path("logout/", custom_logout, name="logout"),
