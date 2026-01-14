@@ -10,6 +10,19 @@ from .ai_bot import get_ai_response # <--- ИСПРАВЛЕННЫЙ ИМПОРТ
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.user = self.scope.get('user', AnonymousUser())
+
+        # Security check for mentor rooms
+        if self.room_name.startswith('mentor_'):
+            if self.user.is_anonymous:
+                await self.close()
+                return
+
+            expected_room = f'mentor_{self.user.username}'
+            if self.room_name != expected_room and not self.user.is_superuser:
+                await self.close()
+                return
+
         self.room_group_name = 'chat_%s' % self.room_name
 
         await self.channel_layer.group_add(
