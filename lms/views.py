@@ -99,7 +99,17 @@ def submit_solution(request, problem_id):
             submission.save()
     return redirect('course_detail', pk=problem.material.section.course.id)
 
-from .models import Course, Section, Material, CodingProblem, Submission, PersonalTask, TaskComment, Notification, User
+from .models import Course, Section, Material, CodingProblem, Submission, PersonalTask, TaskComment, Notification, User, StudentProfile
+
+# Таблица лидеров
+class LeaderboardView(ListView):
+    model = StudentProfile
+    template_name = "leaderboard.html"
+    context_object_name = "profiles"
+    ordering = ['-total_xp']
+
+    def get_queryset(self):
+        return StudentProfile.objects.select_related('user').order_by('-total_xp')[:50] # Top 50
 
 def mark_as_read(request, notification_id):
     notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
