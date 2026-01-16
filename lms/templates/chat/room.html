@@ -94,9 +94,9 @@
 </style>
 
 <script>
-    const roomName = "{{ room_name }}";
+    const roomName = "{{ room_name|escapejs }}";
     const chatLog = document.querySelector('#chat-log');
-    const currentUsername = "{{ user.username }}";
+    const currentUsername = "{{ user.username|escapejs }}";
 
     // Имя бота (убедитесь, что оно соответствует вашему system message в Python)
     const aiSenderName = '🤖 Gemini AI';
