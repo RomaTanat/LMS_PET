@@ -14,10 +14,16 @@
             {% endfor %}
             <button type="submit" class="btn btn-primary w-full" style="margin-top: 1rem;">Войти</button>
         </form>
-        <p class="text-center text-muted" style="margin-top: 1.5rem;">
-            Нет аккаунта? <a href="{% url 'register' %}"
-                style="color: var(--primary); text-decoration: none; font-weight: 600;">Зарегистрируйтесь</a>
-        </p>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; font-size: 0.9rem;">
+            <a href="{% url 'password_reset' %}" style="color: var(--text-muted); text-decoration: none; transition: color 0.3s;">
+                Забыли пароль?
+            </a>
+            <span class="text-muted">|</span>
+            <a href="{% url 'register' %}" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                Регистрация
+            </a>
+        </div>
     </div>
 </div>
 
