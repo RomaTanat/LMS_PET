@@ -279,6 +279,22 @@
 
             {% if user.achievements.exists %}
             <div class="achievements-grid">
+                {% for user_achievement in user.achievements.all %}
+                <div class="achievement-item {% if user_achievement.progress >= 100 %}unlocked{% endif %}">
+                    <div class="ach-icon-wrapper">
+                        {{ user_achievement.achievement.icon }}
+                    </div>
+                    <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem;">{{ user_achievement.achievement.name }}</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">{{ user_achievement.achievement.description }}</p>
+
+                    <div class="progress-track">
+                        <div class="progress-bar" style="width: {{ user_achievement.progress }}%;"></div>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); text-align: right;">
+                        {{ user_achievement.progress }}%
+                    </div>
+                </div>
+                {% endfor %}
             </div>
             {% else %}
             <div class="text-center text-muted" style="padding: 2rem;">
