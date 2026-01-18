@@ -42,16 +42,21 @@ def logout_view(request):
 # Профиль (доступен только авторизованным)
 @login_required
 def profile_view(request):
-    return render(request, "accounts/profile.html", {"user": request.user})
+    return redirect("user_profile")
 
 
 @login_required
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    return redirect("user_profile")
 
 
 @login_required
 def edit_profile(request):
+    # Ensure profile exists
+    if not hasattr(request.user, 'profile'):
+        from accounts.models import Profile
+        Profile.objects.create(user=request.user)
+
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -59,7 +64,7 @@ def edit_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            return redirect('profile')
+            return redirect('user_profile')
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
