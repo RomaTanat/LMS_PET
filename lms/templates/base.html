@@ -33,7 +33,7 @@
                         </span>
                         {% endif %}
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end glass-panel" aria-labelledby="notificationDropdown" style="width: 300px; padding: 0.5rem; position: absolute; top: 100%; right: 0; display: none; z-index: 1000; margin-top: 10px;">
+                    <div class="dropdown-menu dropdown-menu-end glass-panel" aria-labelledby="notificationDropdown" style="width: 300px; padding: 0.5rem; position: absolute; top: 100%; right: 0; z-index: 1000; margin-top: 10px;">
                         <h6 style="padding: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 0.5rem; font-weight: bold;">Уведомления</h6>
                         <div id="notifications-list">
                             {% for notification in user.notifications.all|slice:":5" %}
