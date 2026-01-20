@@ -40,14 +40,14 @@ X_FRAME_OPTIONS = 'ALLOWALL'
 INSTALLED_APPS = [
     'daphne',
     'chat',
+    'lms',
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lms', 
-    'accounts',
     'channels',
 ]
 
@@ -196,6 +196,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")] if os.path.exists(os.path.
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Email Backend for Development (prints to console)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

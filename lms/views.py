@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, TemplateView
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Course, Section, Material, Test, CodingProblem, Submission
+from .models import Course, Section, Material, Test, CodingProblem, Submission, StudentProfile
 from .forms import SubmissionForm
 from django.db.models import Q
 import subprocess
@@ -145,3 +145,11 @@ def home(request):
 # Страница "О нас"
 def about(request):
     return render(request, "about.html")
+
+class LeaderboardView(ListView):
+    model = StudentProfile
+    template_name = "leaderboard.html"
+    context_object_name = "profiles"
+
+    def get_queryset(self):
+        return StudentProfile.objects.select_related('user').order_by('-total_xp')[:50]
