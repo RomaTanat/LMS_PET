@@ -39,6 +39,8 @@ X_FRAME_OPTIONS = 'ALLOWALL'
 
 INSTALLED_APPS = [
     'daphne',
+    'lms',
+    'accounts',
     'chat',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,8 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lms', 
-    'accounts',
     'channels',
 ]
 
