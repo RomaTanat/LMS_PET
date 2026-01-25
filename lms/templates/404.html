@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Страница не найдена - 404{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 70vh;">
+    <div class="glass-panel text-center" style="padding: 3rem; max-width: 600px;">
+        <div style="font-size: 5rem; margin-bottom: 1rem; opacity: 0.8;">🤔</div>
+        <h1 class="section-title" style="margin-bottom: 1rem;">404 - Страница не найдена</h1>
+        <p class="text-muted" style="margin-bottom: 2rem; font-size: 1.1rem;">
+            Похоже, вы заблудились в цифровом пространстве. Этой страницы не существует или она была перемещена.
+        </p>
+        <a href="/" class="btn btn-primary">
+            🏠 Вернуться на главную
+        </a>
+    </div>
+</div>
+{% endblock %}
