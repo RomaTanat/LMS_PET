@@ -15,52 +15,53 @@
 
     <!-- Контейнер для списка пользователей -->
     <div class="space-y-4">
+
+        <!-- AI Tutor Card -->
+        <div class="p-4 rounded-xl shadow-lg bg-white flex items-center justify-between transition duration-200 hover:shadow-2xl hover:bg-teal-100 bg-teal-50 border-2 border-teal-300 transform scale-[1.01]">
+
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold bg-teal-500 text-white">
+                    🧠
+                </div>
+
+                <div>
+                    <p class="text-lg font-semibold text-gray-800">
+                        <span class="text-teal-700">AI-Тьютор</span>
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        Ваш личный помощник по обучению.
+                    </p>
+                </div>
+            </div>
+
+            <a href="{% url 'chat:room' room_name='mentor_'|add:request.user.username %}"
+               class="px-5 py-2 text-white font-semibold rounded-full shadow-md transition duration-150 transform hover:scale-105 bg-teal-600 hover:bg-teal-700">
+                Открыть чат
+            </a>
+        </div>
+
+        <!-- Real Users -->
         {% for user in all_users %}
-            <div class="p-4 rounded-xl shadow-lg bg-white flex items-center justify-between transition duration-200 hover:shadow-2xl hover:bg-gray-50
-                        {% if user.username == 'AI_Tutor' %}
-                            bg-teal-50 border-2 border-teal-300 transform scale-[1.01] hover:bg-teal-100
-                        {% endif %}">
+            <div class="p-4 rounded-xl shadow-lg bg-white flex items-center justify-between transition duration-200 hover:shadow-2xl hover:bg-gray-50">
 
                 <div class="flex items-center space-x-4">
                     <!-- Аватар (Иконка или первая буква имени) -->
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold
-                                {% if user.username == 'AI_Tutor' %}
-                                    bg-teal-500 text-white
-                                {% else %}
-                                    bg-indigo-100 text-indigo-700
-                                {% endif %}">
-                        {% if user.username == 'AI_Tutor' %}
-                            🧠
-                        {% else %}
-                            {{ user.username|slice:":1"|upper }}
-                        {% endif %}
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold bg-indigo-100 text-indigo-700">
+                        {{ user.username|slice:":1"|upper }}
                     </div>
 
                     <div>
                         <p class="text-lg font-semibold text-gray-800">
-                            {% if user.username == 'AI_Tutor' %}
-                                <span class="text-teal-700">AI-Тьютор</span>
-                            {% else %}
-                                {{ user.username }}
-                            {% endif %}
+                            {{ user.username }}
                         </p>
                         <p class="text-sm text-gray-500">
-                            {% if user.username == 'AI_Tutor' %}
-                                Ваш личный помощник по обучению.
-                            {% else %}
-                                Пользователь LMS.
-                            {% endif %}
+                            Пользователь LMS.
                         </p>
                     </div>
                 </div>
 
                 <a href="{% url 'chat:start_private_chat' target_username=user.username %}"
-                   class="px-5 py-2 text-white font-semibold rounded-full shadow-md transition duration-150 transform hover:scale-105
-                          {% if user.username == 'AI_Tutor' %}
-                            bg-teal-600 hover:bg-teal-700
-                          {% else %}
-                            bg-indigo-600 hover:bg-indigo-700
-                          {% endif %}">
+                   class="px-5 py-2 text-white font-semibold rounded-full shadow-md transition duration-150 transform hover:scale-105 bg-indigo-600 hover:bg-indigo-700">
                     Открыть чат
                 </a>
             </div>
@@ -68,8 +69,8 @@
 
         {% if not all_users %}
             <div class="p-6 text-center text-gray-500 bg-white rounded-xl shadow-lg mt-8">
-                <p class="text-lg font-medium">Нет доступных контактов.</p>
-                <p class="text-sm mt-2">Пожалуйста, убедитесь, что в базе данных есть другие пользователи, и создан специальный аккаунт "AI_Tutor".</p>
+                <p class="text-lg font-medium">Нет других пользователей.</p>
+                <p class="text-sm mt-2">Вы можете общаться только с AI-Тьютором.</p>
             </div>
         {% endif %}
     </div>
