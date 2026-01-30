@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Ошибка сервера (500){% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+    <div class="glass-panel" style="text-align: center; max-width: 500px; padding: 3rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🔧</div>
+        <h1 style="color: var(--warning); margin-bottom: 1rem;">Ошибка сервера</h1>
+        <p class="text-muted" style="margin-bottom: 2rem; font-size: 1.1rem;">
+            Что-то пошло не так на нашей стороне. Мы уже работаем над испровлением.
+        </p>
+        <a href="{% url 'home' %}" class="btn btn-primary">На главную</a>
+    </div>
+</div>
+{% endblock %}
