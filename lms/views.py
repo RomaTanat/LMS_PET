@@ -140,7 +140,8 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
 
 # Главная страница
 def home(request):
-    return render(request, "home.html")
+    courses = Course.objects.all()
+    return render(request, "home.html", {'courses': courses})
 
 # Страница "О нас"
 def about(request):
