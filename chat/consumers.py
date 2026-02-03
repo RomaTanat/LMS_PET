@@ -67,23 +67,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
-        # 4. Вызов DeepSeek AI
-        ai_response_text = await sync_to_async(get_ai_response)(user_message, history)
+        # 4. Вызов DeepSeek AI (только если это AI-чат или Ментор)
+        if self.room_name == 'ai_session' or self.room_name.startswith('mentor_'):
+            ai_response_text = await sync_to_async(get_ai_response)(user_message, history)
 
-        # 5. Сохранение ответа AI
-        ai_username = "DeepSeek AI"
-        await self.create_message(room, None, ai_response_text, is_ai_response=True)
+            # 5. Сохранение ответа AI
+            ai_username = "DeepSeek AI"
+            await self.create_message(room, None, ai_response_text, is_ai_response=True)
 
-        # 6. Отправка ответа AI
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': ai_response_text,
-                'username': ai_username,
-                'is_ai': True
-            }
-        )
+            # 6. Отправка ответа AI
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat_message',
+                    'message': ai_response_text,
+                    'username': ai_username,
+                    'is_ai': True
+                }
+            )
 
     # --- МЕТОД CHAT_MESSAGE СТРУКТУРИРОВАННОГО ВЫВОДА (ОК) ---
     async def chat_message(self, event):
