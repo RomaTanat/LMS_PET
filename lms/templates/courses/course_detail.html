@@ -76,10 +76,16 @@
                 {% endif %}
 
                 {% if problem.user_submission %}
-                    <div class="status-panel p-4 rounded-lg mb-4 {% if problem.user_submission.status == 'ACCEPTED' %}bg-green-900/20 text-green-400{% else %}bg-red-900/20 text-red-400{% endif %}">
+                    <div class="status-panel"
+                         style="padding: 1rem; border-radius: 8px; margin-bottom: 1rem;
+                                {% if problem.user_submission.status == 'ACCEPTED' %}
+                                    background: rgba(16, 185, 129, 0.2); color: #4ade80; border: 1px solid rgba(16, 185, 129, 0.3);
+                                {% else %}
+                                    background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);
+                                {% endif %}">
                         <strong>Статус:</strong> {{ problem.user_submission.get_status_display }}
                         {% if problem.user_submission.feedback %}
-                            <div class="mt-2 text-sm">{{ problem.user_submission.feedback|linebreaks }}</div>
+                            <div style="margin-top: 0.5rem; font-size: 0.9rem;">{{ problem.user_submission.feedback|linebreaks }}</div>
                         {% endif %}
                     </div>
                 {% endif %}
