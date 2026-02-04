@@ -203,3 +203,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "lms.User"
 GEMINI_API_KEY = "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"
+# Email Backend for Development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
