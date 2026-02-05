@@ -4,31 +4,18 @@
 {% block title %}Чаты{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-extrabold text-gray-900 mb-6 border-b-4 border-indigo-600 pb-2">
-        Список контактов
-    </h1>
+<div class="container" style="padding-top: 2rem; display: flex; justify-content: center;">
+    <div class="glass-panel" style="padding: 2rem; width: 100%; max-width: 1000px;">
+        <h1 class="section-title" style="margin-bottom: 1.5rem; text-align: center;">Список контактов</h1>
 
-    <p class="text-md text-gray-600 mb-8">
-        Вы вошли как: <span class="font-semibold text-indigo-700">{{ current_user }}</span>. Выберите пользователя или AI-тьютора, чтобы начать новый диалог.
-    </p>
+        <p style="color: var(--text-muted); margin-bottom: 2rem; text-align: center;">
+            Вы вошли как: <span style="color: var(--primary); font-weight: bold;">{{ current_user.username }}</span>.
+        </p>
 
-    <!-- Контейнер для списка пользователей -->
-    <div class="space-y-4">
-        {% for user in all_users %}
-            <div class="p-4 rounded-xl shadow-lg bg-white flex items-center justify-between transition duration-200 hover:shadow-2xl hover:bg-gray-50
-                        {% if user.username == 'AI_Tutor' %}
-                            bg-teal-50 border-2 border-teal-300 transform scale-[1.01] hover:bg-teal-100
-                        {% endif %}">
-
-                <div class="flex items-center space-x-4">
-                    <!-- Аватар (Иконка или первая буква имени) -->
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold
-                                {% if user.username == 'AI_Tutor' %}
-                                    bg-teal-500 text-white
-                                {% else %}
-                                    bg-indigo-100 text-indigo-700
-                                {% endif %}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+            {% for user in all_users %}
+                <div class="glass-panel" style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: white;">
                         {% if user.username == 'AI_Tutor' %}
                             🧠
                         {% else %}
@@ -36,42 +23,34 @@
                         {% endif %}
                     </div>
 
-                    <div>
-                        <p class="text-lg font-semibold text-gray-800">
+                    <div style="text-align: center;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.25rem; color: white; font-weight: 600;">
                             {% if user.username == 'AI_Tutor' %}
-                                <span class="text-teal-700">AI-Тьютор</span>
+                                AI-Тьютор
                             {% else %}
                                 {{ user.username }}
                             {% endif %}
-                        </p>
-                        <p class="text-sm text-gray-500">
+                        </h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">
                             {% if user.username == 'AI_Tutor' %}
-                                Ваш личный помощник по обучению.
+                                Персональный помощник
                             {% else %}
-                                Пользователь LMS.
+                                Пользователь LMS
                             {% endif %}
                         </p>
                     </div>
+
+                    <a href="{% url 'chat:start_private_chat' target_username=user.username %}"
+                       class="btn btn-primary" style="width: 100%; text-align: center; margin-top: auto;">
+                        Написать
+                    </a>
                 </div>
-
-                <a href="{% url 'chat:start_private_chat' target_username=user.username %}"
-                   class="px-5 py-2 text-white font-semibold rounded-full shadow-md transition duration-150 transform hover:scale-105
-                          {% if user.username == 'AI_Tutor' %}
-                            bg-teal-600 hover:bg-teal-700
-                          {% else %}
-                            bg-indigo-600 hover:bg-indigo-700
-                          {% endif %}">
-                    Открыть чат
-                </a>
-            </div>
-        {% endfor %}
-
-        {% if not all_users %}
-            <div class="p-6 text-center text-gray-500 bg-white rounded-xl shadow-lg mt-8">
-                <p class="text-lg font-medium">Нет доступных контактов.</p>
-                <p class="text-sm mt-2">Пожалуйста, убедитесь, что в базе данных есть другие пользователи, и создан специальный аккаунт "AI_Tutor".</p>
-            </div>
-        {% endif %}
+            {% empty %}
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                    <p>Нет доступных контактов.</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock content %}

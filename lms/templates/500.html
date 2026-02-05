@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Ошибка сервера{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+    <div class="glass-panel" style="text-align: center; padding: 3rem; max-width: 500px; width: 100%;">
+        <h1 style="font-size: 5rem; margin-bottom: 0.5rem; color: #ef4444; font-weight: 800; line-height: 1;">500</h1>
+        <h2 class="section-title" style="margin-bottom: 1rem;">Ошибка сервера</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Произошла внутренняя ошибка сервера. Мы уже работаем над её устранением.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary">Вернуться на главную</a>
+    </div>
+</div>
+{% endblock %}
