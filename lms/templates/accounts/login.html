@@ -12,6 +12,9 @@
                 {{ field }}
             </div>
             {% endfor %}
+            <div style="text-align: right; margin-top: -0.5rem;">
+                <a href="{% url 'password_reset' %}" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Забыли пароль?</a>
+            </div>
             <button type="submit" class="btn btn-primary w-full" style="margin-top: 1rem;">Войти</button>
         </form>
         <p class="text-center text-muted" style="margin-top: 1.5rem;">

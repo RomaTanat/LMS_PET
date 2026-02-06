@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Ошибка сервера{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+    <div class="glass-panel text-center" style="max-width: 600px; padding: 3rem;">
+        <h1 style="font-size: 6rem; font-weight: 800; background: linear-gradient(to right, var(--danger), var(--warning)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;">500</h1>
+        <h2 class="section-title" style="justify-content: center; margin-bottom: 1.5rem;">Внутренняя ошибка сервера</h2>
+        <p class="text-muted" style="margin-bottom: 2rem; font-size: 1.1rem;">
+            Что-то пошло не так на нашей стороне. Мы уже работаем над исправлением.
+        </p>
+        <a href="{% url 'home' %}" class="btn btn-outline">
+            Вернуться на главную
+        </a>
+    </div>
+</div>
+{% endblock %}
