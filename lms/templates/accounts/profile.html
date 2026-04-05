@@ -60,7 +60,7 @@
 
     .stats-row {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
         gap: 1rem;
         margin-bottom: 2rem;
     }
@@ -201,6 +201,18 @@
 
             <div class="stats-row">
                 <div class="mini-stat">
+                    <span class="mini-stat-val">{{ user.student_profile.level }}</span>
+                    <span class="mini-stat-label">Уровень</span>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-stat-val">{{ user.student_profile.total_xp }}</span>
+                    <span class="mini-stat-label">XP</span>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-stat-val">{{ user.student_profile.streak_days }} 🔥</span>
+                    <span class="mini-stat-label">Дней</span>
+                </div>
+                <div class="mini-stat">
                     <span class="mini-stat-val">{{ user.enrolled_courses.count }}</span>
                     <span class="mini-stat-label">Курсов</span>
                 </div>
@@ -279,6 +291,14 @@
 
             {% if user.achievements.exists %}
             <div class="achievements-grid">
+                {% for ua in user.achievements.all %}
+                <div class="achievement-item unlocked">
+                    <div class="ach-icon-wrapper">{{ ua.achievement.icon }}</div>
+                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem;">{{ ua.achievement.name }}</h3>
+                    <p class="text-muted" style="font-size: 0.8rem; margin-bottom: 0.75rem;">{{ ua.achievement.description }}</p>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">{{ ua.earned_at|date:"d.m.Y" }}</div>
+                </div>
+                {% endfor %}
             </div>
             {% else %}
             <div class="text-center text-muted" style="padding: 2rem;">
@@ -303,10 +323,8 @@
                         {% endif %}
                     </div>
                     <div class="course-body">
-                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">{{ course.title }}
-                        </h3>
-                        <p class="text-muted" style="margin-bottom: 1.5rem; flex: 1;">{{
-                            course.description|truncatechars:100 }}</p>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">{{ course.title }}</h3>
+                        <p class="text-muted" style="margin-bottom: 1.5rem; flex: 1;">{{ course.description|truncatechars:100 }}</p>
                         <a href="{% url 'course_detail' course.pk %}" class="btn btn-outline w-full"
                             style="text-align: center;">
                             Продолжить обучение

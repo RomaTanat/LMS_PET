@@ -51,53 +51,55 @@
                         </div>
                     {% endfor %}
                 </div>
+
+                <!-- Задачи по программированию -->
+                {% if material.problems %}
+                <h4 style="font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>💻</span> Практика кода
+                </h4>
+                {% for problem in material.problems %}
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h6 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary);">{{ problem.title }}</h6>
+                    <div class="description mb-4">{{ problem.description|linebreaks }}</div>
+
+                    {% if problem.hints %}
+                    <details class="mb-4">
+                        <summary style="cursor: pointer; color: var(--secondary);">💡 Подсказка</summary>
+                        <div style="padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 8px; margin-top: 0.5rem;">
+                            {{ problem.hints }}
+                        </div>
+                    </details>
+                    {% endif %}
+
+                    {% if problem.user_submission %}
+                        <div class="status-panel p-4 rounded-lg mb-4 {% if problem.user_submission.status == 'ACCEPTED' %}bg-green-900/20 text-green-400{% else %}bg-red-900/20 text-red-400{% endif %}">
+                            <strong>Статус:</strong> {{ problem.user_submission.get_status_display }}
+                            {% if problem.user_submission.feedback %}
+                                <div class="mt-2 text-sm">{{ problem.user_submission.feedback|linebreaks }}</div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'submit_solution' problem.id %}" method="post">
+                        {% csrf_token %}
+                        <textarea name="code" class="form-control" rows="10"
+                            style="background: #1e1e1e; color: #d4d4d4; font-family: monospace; border: 1px solid #333; width: 100%; border-radius: 8px; padding: 1rem;"
+                            placeholder="Напишите ваш Python код здесь..."></textarea>
+                        <button type="submit" class="btn btn-primary mt-4">🚀 Отправить решение</button>
+                    </form>
+                    {% else %}
+                    <p class="text-muted">Войдите, чтобы отправить решение.</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% endif %}
+
             </div>
             {% empty %}
             <p class="text-muted" style="font-style: italic; opacity: 0.7;">Нет материалов.</p>
             {% endfor %}
 
-            <!-- Задачи по программированию -->
-            {% if material.problems %}
-            <h4 style="font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <span>💻</span> Практика кода
-            </h4>
-            {% for problem in material.problems %}
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                <h6 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary);">{{ problem.title }}</h6>
-                <div class="description mb-4">{{ problem.description|linebreaks }}</div>
-                
-                {% if problem.hints %}
-                <details class="mb-4">
-                    <summary style="cursor: pointer; color: var(--secondary);">💡 Подсказка</summary>
-                    <div style="padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 8px; margin-top: 0.5rem;">
-                        {{ problem.hints }}
-                    </div>
-                </details>
-                {% endif %}
-
-                {% if problem.user_submission %}
-                    <div class="status-panel p-4 rounded-lg mb-4 {% if problem.user_submission.status == 'ACCEPTED' %}bg-green-900/20 text-green-400{% else %}bg-red-900/20 text-red-400{% endif %}">
-                        <strong>Статус:</strong> {{ problem.user_submission.get_status_display }}
-                        {% if problem.user_submission.feedback %}
-                            <div class="mt-2 text-sm">{{ problem.user_submission.feedback|linebreaks }}</div>
-                        {% endif %}
-                    </div>
-                {% endif %}
-
-                {% if user.is_authenticated %}
-                <form action="{% url 'submit_solution' problem.id %}" method="post">
-                    {% csrf_token %}
-                    <textarea name="code" class="form-control" rows="10" 
-                        style="background: #1e1e1e; color: #d4d4d4; font-family: monospace; border: 1px solid #333; width: 100%; border-radius: 8px; padding: 1rem;"
-                        placeholder="Напишите ваш Python код здесь..."></textarea>
-                    <button type="submit" class="btn btn-primary mt-4">🚀 Отправить решение</button>
-                </form>
-                {% else %}
-                <p class="text-muted">Войдите, чтобы отправить решение.</p>
-                {% endif %}
-            </div>
-            {% endfor %}
-            {% endif %}
 
             <!-- Тесты -->
             <h4

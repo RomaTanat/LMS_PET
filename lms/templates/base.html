@@ -51,7 +51,10 @@
                         </div>
                     </div>
                 </li>
-                <li><a href="{% url 'room' room_name='ai_session' %}" class="nav-link">🤖 AI Чат</a></li>
+                <li><a href="{% url 'room' room_name='mentor_'|add:user.username %}" class="nav-link">🤖 AI Ментор</a></li>
+                {% if user.is_staff %}
+                <li><a href="/admin/" class="nav-link">🛠️ LMS Admin</a></li>
+                {% endif %}
                 {% endif %}
                 {# Конец исправленного блока #}
                 <li><a href="{% url 'about' %}" class="nav-link">ℹ️ О нас</a></li>
